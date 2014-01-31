@@ -3,6 +3,7 @@ package triton.unlinked;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +25,6 @@ public class MainActivity extends Activity {
                     .commit();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,4 +62,12 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * Called when the user clicks the Course Page button
+     */
+    public void CoursePage(View view) {
+        Intent intent = new Intent(this, CourseProfileActivity.class);
+        startActivity(intent);
+    }
 }
+
