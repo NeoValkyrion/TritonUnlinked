@@ -69,5 +69,14 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, CourseProfileActivity.class);
         startActivity(intent);
     }
+
+
+    /**
+     * Called when the user clicks the Professor Page button
+     */
+    public void ProfessorPage(View view) {
+        Intent intent = new Intent(this, ProfessorProfileActivity.class);
+        startActivity(intent);
+    }
 }
 

@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -9,16 +9,26 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Course Page"
-        android:id="@+id/button"
-        android:layout_gravity="center"
+        android:text="@string/course_page_button"
+        android:id="@+id/coursePageButton"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:onClick="CoursePage"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/professor_page_button"
+        android:id="@+id/professorPageButton"
+        android:layout_toRightOf="@id/coursePageButton"
+        android:layout_alignParentBottom="true"
+        android:onClick="ProfessorPage"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Temporary Main Page"
+        android:text="Temporary Main Page NOTE: ADD THIS TO STRING XML"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal|top" />
-</FrameLayout>
+</RelativeLayout>
