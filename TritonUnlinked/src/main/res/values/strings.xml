@@ -7,7 +7,7 @@
 
     <!-- Main Activity Strings -->
 
-    <string name="search_by_header">Search By</string>
+    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -15,7 +15,8 @@
     <string name="professor_page_button">Professor Page</string>
     <string name="course_page_button">Course Page</string>
     <string name="room_page_button">Room Page</string>
-
+    <string name="search_by_header">Search By</string>
+    
     <!-- Course Profile Activity Strings -->
 
     <string name="title_activity_course_profile">CourseProfileActivity</string>
@@ -32,22 +33,6 @@
     <string name="title_activity_professor_profile">ProfessorProfileActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
-    <string name="ratemyprof_comment">Rate My Professor Comments</string>
-    <string name="title_activity_room">RoomActivity</string>
-
-    <!-- Room Activity Strings -->
-    <string name="room_number">Room Number</string>
-    <string name="day_of_week">Day of Week</string>
-    <string name="sample_course1">Sample Course 1</string>
-    <string name="course1_type">Lecture</string>
-    <string name="course1_start">Start: 12:00 PM</string>
-    <string name="course1_end">End: 12:50 PM</string>
-    <string name="sample_course2">Sample Course 2</string>
-    <string name="course2_type">Lecture</string>
-    <string name="course2_start">Start: 2:00 PM</string>
-    <string name="course2_end">End: 2:50 PM</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
 
 </resources>
