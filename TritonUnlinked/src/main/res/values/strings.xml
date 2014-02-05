@@ -31,5 +31,9 @@
     <string name="title_activity_professor_profile">ProfessorProfileActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="ratemyprof_comment">Rate My Professor Comments</string>
 
 </resources>

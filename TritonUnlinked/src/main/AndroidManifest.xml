@@ -23,9 +23,7 @@
         </activity>
         <activity
             android:name="triton.unlinked.ProfessorProfileActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_professor_profile"
-            android:theme="@style/FullscreenTheme" >
+            android:label="@string/title_activity_professor_profile" >
         </activity>
     </application>
 

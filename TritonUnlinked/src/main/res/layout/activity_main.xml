@@ -23,12 +23,4 @@
         android:layout_toRightOf="@id/coursePageButton"
         android:layout_alignParentBottom="true"
         android:onClick="ProfessorPage"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Temporary Main Page NOTE: ADD THIS TO STRING XML"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal|top" />
 </RelativeLayout>
