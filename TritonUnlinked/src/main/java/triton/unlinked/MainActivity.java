@@ -78,5 +78,13 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, ProfessorProfileActivity.class);
         startActivity(intent);
     }
+
+    /**
+     * Called when the user clicks the Room Page button
+     */
+    public void RoomPage(View view) {
+        Intent intent = new Intent(this, RoomActivity.class);
+        startActivity(intent);
+    }
 }
 

@@ -25,6 +25,10 @@
             android:name="triton.unlinked.ProfessorProfileActivity"
             android:label="@string/title_activity_professor_profile" >
         </activity>
+        <activity
+            android:name="triton.unlinked.RoomActivity"
+            android:label="@string/title_activity_room" >
+        </activity>
     </application>
 
 </manifest>

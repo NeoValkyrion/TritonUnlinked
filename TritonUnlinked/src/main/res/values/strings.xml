@@ -14,6 +14,7 @@
     <string name="title_section3">Section 3</string>
     <string name="professor_page_button">Professor Page</string>
     <string name="course_page_button">Course Page</string>
+    <string name="room_page_button">Room Page</string>
 
     <!-- Course Profile Activity Strings -->
 
@@ -35,5 +36,18 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="ratemyprof_comment">Rate My Professor Comments</string>
+    <string name="title_activity_room">RoomActivity</string>
+
+    <!-- Room Activity Strings -->
+    <string name="room_number">Room Number</string>
+    <string name="day_of_week">Day of Week</string>
+    <string name="sample_course1">Sample Course 1</string>
+    <string name="course1_type">Lecture</string>
+    <string name="course1_start">Start: 12:00 PM</string>
+    <string name="course1_end">End: 12:50 PM</string>
+    <string name="sample_course2">Sample Course 2</string>
+    <string name="course2_type">Lecture</string>
+    <string name="course2_start">Start: 2:00 PM</string>
+    <string name="course2_end">End: 2:50 PM</string>
 
 </resources>
