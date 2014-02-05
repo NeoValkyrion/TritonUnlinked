@@ -14,4 +14,14 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <!-- Course Profile Activity Strings -->
+
+    <string name="course_name">Course Name</string>
+    <string name="course_desc">Description: This is a description for a course. It could be any course. Even underwater basket weaving. The important thing to remember is that this space is for describing a course. It shouldn't change even if the area below displays a section from a different page.</string>
+    <string name="course_section">Section </string>
+    <string name="course_section_type">Type: Lecture</string>
+    <string name="course_section_prof">Professor: James Bond</string>
+    <string name="course_section_time">Time: Tues/Thurs from 3:00-4:20</string>
+    <string name="course_section_loc">Location: Room 420</string>
+
 </resources>

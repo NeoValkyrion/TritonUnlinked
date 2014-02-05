@@ -9,8 +9,76 @@
     tools:context="triton.unlinked.CourseProfileActivity$PlaceholderFragment">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/course_name"
+        android:id="@+id/course_name"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/course_desc"
+        android:id="@+id/course_desc"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/course_name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/course_section"
+        android:id="@+id/course_section"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/course_desc"/>
+
+    <TextView
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/course_section"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/course_section"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/course_section_type"
+        android:id="@+id/course_section_type"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/course_section"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/course_section_prof"
+        android:id="@+id/course_section_prof"
+        android:layout_below="@+id/course_section_type"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/course_section_time"
+        android:id="@+id/course_section_time"
+        android:layout_below="@+id/course_section_prof"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/course_section_loc"
+        android:id="@+id/course_section_loc"
+        android:layout_below="@+id/course_section_time"
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>
