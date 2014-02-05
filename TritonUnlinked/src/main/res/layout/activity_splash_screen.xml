@@ -3,15 +3,15 @@
     android:id="@+id/splashScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#366ab5"
     tools:context="triton.unlinked.SplashScreen"
     tools:ignore="MergeRootFrame" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="IM A SPLASH SCREEN"
-        android:id="@+id/textView"
-        android:layout_gravity="center" />
+    <ImageView
+        android:layout_width="280dp"
+        android:layout_height="379dp"
+        android:id="@+id/imageView"
+        android:layout_gravity="center"
+        android:src="@drawable/logo_triton"/>
 
 </FrameLayout>
