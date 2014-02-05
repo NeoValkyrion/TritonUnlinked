@@ -6,6 +6,42 @@
     tools:context="triton.unlinked.MainActivity"
     tools:ignore="MergeRootFrame" >
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/search_by_header"
+        android:id="@+id/searchByHeader"
+        android:textSize="50sp"
+        android:layout_alignParentTop="true" />
+
+    <Spinner
+        android:id="@+id/searchOptionDropdown"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchByHeader"/>
+
+    <EditText
+        android:id="@+id/searchBox"
+        android:layout_below="@id/searchOptionDropdown"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="TODO: dynamic hint"
+        android:inputType="textAutoComplete"
+        android:imeOptions="actionSearch"/>
+
+    <ImageButton
+        android:id="@+id/goButton"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/searchBox"
+        android:layout_width="100sp"
+        android:layout_height="50sp" />
+    <ImageButton
+        android:id="@+id/browseButton"
+        android:layout_below="@id/searchBox"
+        android:layout_toLeftOf="@id/goButton"
+        android:layout_width="200sp"
+        android:layout_height="50sp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
