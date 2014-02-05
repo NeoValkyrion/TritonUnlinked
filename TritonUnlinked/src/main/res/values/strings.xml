@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Global Strings -->
+
     <string name="app_name">TritonUnlinked</string>
+
+    <!-- Main Activity Strings -->
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
-    <string name="title_activity_professor_profile">ProfessorProfileActivity</string>
     <string name="professor_page_button">Professor Page</string>
     <string name="course_page_button">Course Page</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <!-- Course Profile Activity Strings -->
 
@@ -23,5 +25,11 @@
     <string name="course_section_prof">Professor: James Bond</string>
     <string name="course_section_time">Time: Tues/Thurs from 3:00-4:20</string>
     <string name="course_section_loc">Location: Room 420</string>
+
+    <!-- Professor Profile Activity Strings -->
+
+    <string name="title_activity_professor_profile">ProfessorProfileActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>
