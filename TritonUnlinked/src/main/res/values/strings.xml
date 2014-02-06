@@ -39,7 +39,8 @@
     <string name="title_activity_room">RoomActivity</string>
 
     <!-- Room Activity Strings -->
-    <string name="room_number">Room Number</string>
+    <string name="lecture_hall">Galbraith Hall</string>
+    <string name="room_number">Room 242</string>
     <string name="day_of_week">Day of Week</string>
     <string name="sample_course1">Sample Course 1</string>
     <string name="course1_type">Lecture</string>
