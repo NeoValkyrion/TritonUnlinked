@@ -8,19 +8,31 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <!-- Splash Screen -->
         <activity
-            android:name="triton.unlinked.MainActivity"
-            android:label="@string/app_name" >
+            android:name=".SplashScreenActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Main Activity -->
+        <activity
+            android:name="triton.unlinked.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!-- Course Profile Activity -->
         <activity
             android:name="triton.unlinked.CourseProfileActivity"
-            android:label="@string/title_activity_course_profile" >
+            android:label="@string/title_activity_course_profile"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
+        <!-- Professor Profile Activity -->
         <activity
             android:name="triton.unlinked.ProfessorProfileActivity"
             android:label="@string/title_activity_professor_profile" >

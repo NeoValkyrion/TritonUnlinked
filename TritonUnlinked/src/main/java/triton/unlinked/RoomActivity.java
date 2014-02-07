@@ -94,8 +94,8 @@ public class RoomActivity extends Activity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages
-            return 3;
+            // Show 7 total pages (one for each day of the week)
+            return 7;
         }
 
         @Override
@@ -107,6 +107,14 @@ public class RoomActivity extends Activity {
                 case 1:
                     return getString(R.string.title_section2).toUpperCase(l);
                 case 2:
+                    return getString(R.string.title_section3).toUpperCase(l);
+                case 3:
+                    return getString(R.string.title_section3).toUpperCase(l);
+                case 4:
+                    return getString(R.string.title_section3).toUpperCase(l);
+                case 5:
+                    return getString(R.string.title_section3).toUpperCase(l);
+                case 6:
                     return getString(R.string.title_section3).toUpperCase(l);
             }
             return null;
