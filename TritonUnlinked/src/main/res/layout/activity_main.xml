@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
+    android:background="@drawable/american"
+    android:scaleType = "centerCrop"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="triton.unlinked.MainActivity"
@@ -34,6 +36,8 @@
         android:id="@+id/goButton"
         android:layout_alignParentRight="true"
         android:layout_below="@id/searchBox"
+        android:src="@drawable/fella"
+        android:scaleType="fitXY"
         android:layout_width="100sp"
         android:layout_height="50sp" />
     <ImageButton
