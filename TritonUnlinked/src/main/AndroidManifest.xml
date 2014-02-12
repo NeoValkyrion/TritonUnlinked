@@ -11,6 +11,7 @@
         <!-- Splash Screen -->
         <activity
             android:name=".SplashScreenActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
 
@@ -23,6 +24,7 @@
         <!-- Main Activity -->
         <activity
             android:name="triton.unlinked.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -30,15 +32,18 @@
         <activity
             android:name="triton.unlinked.CourseProfileActivity"
             android:label="@string/title_activity_course_profile"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- Professor Profile Activity -->
         <activity
             android:name="triton.unlinked.ProfessorProfileActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_professor_profile" >
         </activity>
         <activity
             android:name="triton.unlinked.RoomActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_room" >
         </activity>
     </application>
