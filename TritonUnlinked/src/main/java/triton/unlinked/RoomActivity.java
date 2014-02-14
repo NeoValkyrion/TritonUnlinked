@@ -1,12 +1,14 @@
 package triton.unlinked;
 
 import java.util.Locale;
+import java.util.Vector;
 
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class RoomActivity extends Activity {
@@ -34,13 +37,15 @@ public class RoomActivity extends Activity {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    ListView timeListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
-
+        timeListView = (ListView) findViewById(R.id.times);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -49,7 +54,6 @@ public class RoomActivity extends Activity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
     }
 
 
@@ -109,13 +113,13 @@ public class RoomActivity extends Activity {
                 case 2:
                     return getString(R.string.title_section3).toUpperCase(l);
                 case 3:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return getString(R.string.title_section4).toUpperCase(l);
                 case 4:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return getString(R.string.title_section5).toUpperCase(l);
                 case 5:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return getString(R.string.title_section6).toUpperCase(l);
                 case 6:
-                    return getString(R.string.title_section3).toUpperCase(l);
+                    return getString(R.string.title_section7).toUpperCase(l);
             }
             return null;
         }
