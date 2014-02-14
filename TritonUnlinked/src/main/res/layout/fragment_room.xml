@@ -12,8 +12,7 @@
     <View
         android:id="@+id/blueRectangle"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/rectangle"/>
+        android:layout_height="90dp" />
 
     <TextView
         android:id="@+id/section_label"
