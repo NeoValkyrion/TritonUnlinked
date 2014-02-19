@@ -2,18 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/galbraith_hall"
     tools:context="triton.unlinked.RoomActivity$PlaceholderFragment">
     <!--android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"-->
 
+    <View
+        android:id="@+id/transparentRectangle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rectangle_transparent"/>
 
     <View
         android:id="@+id/blueRectangle"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/rectangle"/>
+        android:layout_height="80dp"
+        android:background="@drawable/rectangle_blue"/>
 
     <TextView
         android:id="@+id/section_label"
@@ -23,7 +29,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/lecture_hall"
         android:id="@+id/lecture_hall"
@@ -42,9 +48,11 @@
 
     <ListView
         android:id="@+id/times"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
+        android:dividerHeight="20dp"
+        android:divider="@drawable/rectangle_line"
         android:entries="@array/times"
         android:layout_below="@+id/room_number">
     </ListView>
