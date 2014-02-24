@@ -1,5 +1,9 @@
 package triton.unlinked;
 
+import triton.unlinked.SQLiteDAO;
+import triton.unlinked.CourseModel;
+import triton.unlinked.CourseRow;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -30,11 +34,18 @@ public class CourseProfileActivity extends Activity {
      */
     ViewPager mViewPager;
 
+    private CourseModel model_data;
+    private CourseRow[] pulled_data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_profile);
 
+        // Access the database and retrieve all courses
+        model_data.open();
+        pulled_data = model_data.getAllBySubject("CSE");
+        model_data.close();
 
 
         // Create the adapter that will return a fragment for each of the three

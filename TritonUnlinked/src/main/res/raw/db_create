@@ -1,0 +1,11 @@
+CREATE TABLE course
+(
+	_id              INTEGER PRIMARY KEY,
+	name             TEXT UNIQUE NOT NULL,
+	number           TEXT NOT NULL,
+	subject          TEXT NOT NULL,
+	description      TEXT,
+	date_created     INTEGER,
+	date_modified    INTEGER
+);
+--###--
