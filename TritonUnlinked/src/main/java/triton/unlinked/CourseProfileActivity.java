@@ -1,15 +1,17 @@
 package triton.unlinked;
 
-import triton.unlinked.SQLiteDAO;
-import triton.unlinked.CourseModel;
-import triton.unlinked.CourseRow;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,34 +36,47 @@ public class CourseProfileActivity extends Activity {
      */
     ViewPager mViewPager;
 
+    private ProgressDialog pDialog;
+
+    //Temporary, must be replaced by constructed query string given course information
+    private static String url = "http://tritonunlinked.herokuapp.com/courseinfo?dept=CSE&subject=CSE&num=101";
+
+
     private TextView courseNameView;
     private TextView courseNumView;
     private TextView courseSubView;
     private TextView courseDescView;
 
+    //JSON field tags for Courses
+    private static final String TAG_SUBJECT = "subject";
+    private static final String TAG_NUMBER = "num";
+
+    //
+    private String subject;
+    private String number;
+
+    //Local Database stuff
+    /*
     private CourseModel model_data;
     private CourseRow pulled_data;
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_profile);
 
-        model_data = new CourseModel(this);
+        new GetCourse().execute();
 
+        //Local Database stuff
+        /*
+        model_data = new CourseModel(this);
 
         // Access the database and retrieve course data
         model_data.open();
         pulled_data = model_data.getByID(2);
         model_data.close();
-
-
-        // Set Course Page values to those from database
-        courseSubView = (TextView) findViewById(R.id.course_sub);
-        courseSubView.setText(pulled_data.subject);
-        courseNumView = (TextView) findViewById(R.id.course_num);
-        courseNumView.setText(pulled_data.number);
-
+        */
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -71,6 +86,64 @@ public class CourseProfileActivity extends Activity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+    }
+
+    /**
+     * Async task class to get json by making HTTP call
+     */
+    private class GetCourse extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(CourseProfileActivity.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            //Create service handler class instance
+            ServiceHandler sh = new ServiceHandler();
+
+            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
+
+            Log.d("Response: ", "> " + jsonStr);
+
+            if(jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+
+                    //Save values from JSON Object
+                    subject = jsonObj.getString(TAG_SUBJECT);
+                    number = jsonObj.getString(TAG_NUMBER);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("ServiceHandler", "Couldn't get any data from the url");
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            //Update local fields with values from JSON
+            courseSubView = (TextView) findViewById(R.id.course_sub);
+            courseSubView.setText(subject);
+            courseNumView = (TextView) findViewById(R.id.course_num);
+            courseNumView.setText(number);
+
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+        }
     }
 
     /**
