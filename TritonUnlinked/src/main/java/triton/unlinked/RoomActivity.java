@@ -31,12 +31,12 @@ public class RoomActivity extends Activity {
      * may be best to switch to a
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    //SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager mViewPager;
+    //ViewPager mViewPager;
     ListView timeListView;
 
 
@@ -49,11 +49,11 @@ public class RoomActivity extends Activity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        //mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        //mViewPager = (ViewPager) findViewById(R.id.pager);
+        //mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
 
@@ -83,7 +83,7 @@ public class RoomActivity extends Activity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    /*public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -123,7 +123,7 @@ public class RoomActivity extends Activity {
             }
             return null;
         }
-    }
+    }*/
 
     /**
      * A placeholder fragment containing a simple view.
