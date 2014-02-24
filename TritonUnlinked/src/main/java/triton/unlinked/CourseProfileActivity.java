@@ -34,18 +34,33 @@ public class CourseProfileActivity extends Activity {
      */
     ViewPager mViewPager;
 
+    private TextView courseNameView;
+    private TextView courseNumView;
+    private TextView courseSubView;
+    private TextView courseDescView;
+
     private CourseModel model_data;
-    private CourseRow[] pulled_data;
+    private CourseRow pulled_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_profile);
 
-        // Access the database and retrieve all courses
+        model_data = new CourseModel(this);
+
+
+        // Access the database and retrieve course data
         model_data.open();
-        pulled_data = model_data.getAllBySubject("CSE");
+        pulled_data = model_data.getByID(2);
         model_data.close();
+
+
+        // Set Course Page values to those from database
+        courseSubView = (TextView) findViewById(R.id.course_sub);
+        courseSubView.setText(pulled_data.subject);
+        courseNumView = (TextView) findViewById(R.id.course_num);
+        courseNumView.setText(pulled_data.number);
 
 
         // Create the adapter that will return a fragment for each of the three

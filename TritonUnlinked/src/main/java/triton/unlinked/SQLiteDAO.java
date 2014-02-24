@@ -41,7 +41,6 @@ public abstract class SQLiteDAO
             this.context = context;
         }
 
-
         @Override
         public void onCreate(SQLiteDatabase db)
         {
