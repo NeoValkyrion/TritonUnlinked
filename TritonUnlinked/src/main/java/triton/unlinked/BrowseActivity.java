@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -22,20 +25,56 @@ public class BrowseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(android.R.layout.activity_browse);
+        setContentView(R.layout.activity_browse);
 
-        String[] swag = {"CSE190", "CSE120", "CSE110", "CSE180", "CSE123"};
-        ArrayAdapter<String> browseAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, swag);
+        final String[] subjCode = {"BICD", "BIMM", "CHEM", "CSE"};
+        final String[] bicdCoursesNum = {"100", "110", "130", "134", "194"};
+        final String[] bicdCoursesTitle = {"Genetics", "Cell Biology", "Embryos, Genes, & Development",
+                "Human Reproduction & Development", "Adv Topics-Cellular Dev"};
+        final String[] cseCoursesNum = {"3", "7", "8A", "8B", "100", "110"};
+        final String[] cseCoursesTitle = {"Fluency in Information Technology", "Introduction to Matlab",
+                "Intro to Java", "Intro to OOP", "Advanced Data Structures", "Software Engineering"};
 
-        ListView lv = (ListView)findViewById(android.R.id.browseList);
+        final ArrayList<String> listArr = new ArrayList<String>();
+        for (int i = 0; i < subjCode.length; ++i){
+            listArr.add(subjCode[i]);
+        }
+        final ArrayAdapter<String> browseAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listArr);
+
+        ListView lv = (ListView)findViewById(R.id.browseList);
         lv.setAdapter(browseAdapter);
 
         lv.setOnItemClickListener(new OnItemClickListener()
         {
+            boolean subjCodeIsDisplayed = true;
+            boolean courseNumIsDisplayed = false;
             @Override
             public void onItemClick(AdapterView<?> a, View v,int position, long id)
             {
-                Toast.makeText(getBaseContext(), "Click", Toast.LENGTH_LONG).show();
+                if (subjCodeIsDisplayed == true){
+                    switch (position){
+                        case 0:
+                            browseAdapter.clear();
+                            for (int i = 0; i < bicdCoursesNum.length; ++i){
+                                browseAdapter.add(bicdCoursesNum[i]);
+                            }
+                            browseAdapter.notifyDataSetChanged();
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            listArr.clear();
+                            for (int i = 0; i < cseCoursesNum.length; ++i){
+                                browseAdapter.add(cseCoursesNum[i]);
+                            }
+                            browseAdapter.notifyDataSetChanged();
+                            break;
+                    }
+                    subjCodeIsDisplayed = false;
+                    courseNumIsDisplayed = true;
+                }
             }
         });
 
@@ -46,12 +85,16 @@ public class BrowseActivity extends Activity {
         }*/
     }
 
+  /*  @Override
+    public boolean onBackPressed()  {
+
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(android.R.menu.browse, menu);
+        getMenuInflater().inflate(R.menu.browse, menu);
         return true;
     }
 
@@ -61,7 +104,7 @@ public class BrowseActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == android.R.id.action_settings) {
+        if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);

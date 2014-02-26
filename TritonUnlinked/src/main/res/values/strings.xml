@@ -7,7 +7,7 @@
     <string name="title_activity_splash_screen">SplashScreen</string>
 
     <!-- Main Activity Strings -->
-    
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_section1">Section 1</string>
@@ -21,7 +21,7 @@
     <string name="course_page_button">Course Page</string>
     <string name="room_page_button">Room Page</string>
     <string name="search_by_header">Search By</string>
-    
+
     <!-- Course Profile Activity Strings -->
 
     <string name="title_activity_course_profile">CourseProfileActivity</string>
@@ -76,5 +76,7 @@
         <item>9:00</item>
         <item>10:00</item>
     </string-array>
+
+    <string name="title_activity_browse">BrowseActivity</string>
 
 </resources>
