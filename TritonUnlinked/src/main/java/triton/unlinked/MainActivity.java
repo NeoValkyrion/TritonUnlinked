@@ -9,7 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 public class MainActivity extends Activity {
@@ -31,6 +34,15 @@ public class MainActivity extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        ImageButton browseButton = (ImageButton) findViewById(R.id.browseButton);
+        browseButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(v.getContext(), BrowseActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
