@@ -1,0 +1,6 @@
+INSERT INTO 'course' ('name', 'number', 'subject', 'description')
+
+	SELECT 'Intr/Computer Sci&Obj-Ori:Java' AS 'name', '11' AS 'number', 'CSE' AS 'subject', 'Computer science starts here'
+    UNION SELECT 'Advanced Data Structures', '100', 'CSE', 'Hope you like data structures'
+	UNION SELECT 'Advanced Algorithms', '101', 'CSE', 'Hope you like algorithms'
+--###--

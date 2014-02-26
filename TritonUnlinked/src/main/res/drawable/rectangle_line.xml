@@ -9,7 +9,7 @@
     </item>
 
     <item android:top="0px"
-        android:left="150px"
+        android:left="130px"
         android:right="20px">
         <shape android:shape="line"  >
             <stroke

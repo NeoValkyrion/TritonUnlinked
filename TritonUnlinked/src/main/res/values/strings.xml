@@ -27,6 +27,7 @@
     <string name="title_activity_course_profile">CourseProfileActivity</string>
     <string name="course_name">Course Name</string>
     <string name="course_num">Course Number</string>
+    <string name="course_sub">Course Subject</string>
     <string name="course_desc">Description: This is a description for a course. It could be any course. Even underwater basket weaving. The important thing to remember is that this space is for describing a course. It shouldnt change even if the area below displays a section from a different page.</string>
     <string name="course_section">Section </string>
     <string name="course_section_type">Type: Lecture</string>
