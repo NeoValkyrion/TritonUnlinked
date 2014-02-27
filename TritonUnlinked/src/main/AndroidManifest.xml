@@ -16,7 +16,7 @@
             android:name="triton.unlinked.SplashScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.Holo" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,7 +50,8 @@
         <activity
             android:name="triton.unlinked.BrowseActivity"
             android:label="BrowseActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo">
         </activity>
     </application>
 
