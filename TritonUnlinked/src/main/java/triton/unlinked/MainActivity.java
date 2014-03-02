@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.graphics.Typeface;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -23,6 +25,20 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //REMOVE THIS CODE AND PROGRAM WILL WORK
+        // Font path
+        //  String fontPath = "fonts/Face Your Fears.ttf";
+
+        // text view label
+        //  TextView txtGhost = (TextView)findViewById(R.id.bob);
+
+        // Loading Font Face
+        //  Typeface tf;
+        //  tf = Typeface.createFromAsset(getAssets(), fontPath);
+
+        // Applying font
+        // txtGhost.setTypeface(tf);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
