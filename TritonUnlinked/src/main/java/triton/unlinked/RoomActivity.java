@@ -9,6 +9,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -38,6 +39,7 @@ public class RoomActivity extends Activity {
      */
     //ViewPager mViewPager;
     ListView timeListView;
+    String[] times = {"8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00","8:00", "9:00"};
 
 
     @Override
@@ -45,7 +47,10 @@ public class RoomActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
-        timeListView = (ListView) findViewById(R.id.times);
+        RoomScheduleAdapter adapter = new RoomScheduleAdapter(this, times);
+
+        timeListView = (ListView) findViewById(R.id.schedule);
+        timeListView.setAdapter(adapter);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

@@ -13,6 +13,7 @@
     tools:context="triton.unlinked.RoomActivity$PlaceholderFragment">
     <!--android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"-->
 
@@ -55,15 +56,37 @@
         android:layout_below="@+id/lecture_hall" />
 
     <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:id="@+id/schedule"
+        android:dividerHeight="0.0px"
+        android:padding="0dip"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/room_number">
+    </ListView>
+
+    <!-- android:dividerHeight="20dp"
+        android:divider="@drawable/rectangle_line" -->
+    <!--<ListView
         android:id="@+id/times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:dividerHeight="20dp"
-        android:divider="@drawable/rectangle_line"
         android:entries="@array/times"
         android:layout_below="@+id/room_number">
-    </ListView>
+    </ListView>-->
+
+    <!--<ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/whiteline"
+        android:src="@drawable/white_line"
+        android:layout_toRightOf="@+id/times"
+        android:layout_below="@+id/room_number">
+    </ImageView>-->
 
 </RelativeLayout>
 
