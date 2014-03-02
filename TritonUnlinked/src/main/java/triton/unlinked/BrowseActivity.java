@@ -26,10 +26,37 @@ import java.util.ArrayList;
 public class BrowseActivity extends FragmentActivity implements ActionBar.TabListener{
 
     private static final String CURRENT_NAV_ITEM = "current_selected_nav_item";
+
+    private BrowseCoursesModel course_model_data;
+    private BrowseCoursesRow[] course_row_data;
+    ArrayList<String> subjectList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse);
+
+        subjectList = new ArrayList<String>();
+        course_model_data = new BrowseCoursesModel(this);
+
+        //Start Example code, feel free to modify/delete
+        // Access the database and retrieve list of subjects
+        course_model_data.open();
+        course_row_data = course_model_data.getAllCoursesRows();
+        course_model_data.close();
+
+        subjectList = new ArrayList<String>();
+
+        for (int i = 0; i < course_row_data.length; i++) {
+            subjectList.add(course_row_data[i].subject);
+        }
+
+        for (String s : subjectList)
+        {
+            Log.d("Subject: ", s);
+        }
+        //End Example code
+
 
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

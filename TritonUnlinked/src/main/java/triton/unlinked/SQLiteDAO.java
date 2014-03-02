@@ -25,7 +25,6 @@ public abstract class SQLiteDAO
 
     //Global Column Names
     public static final String COL_ID    = "_id";
-    public static final String COL_NAME  = "name";
     public static final String COL_CDATE = "date_created";
     public static final String COL_MDATE = "date_modified";
 
@@ -235,46 +234,6 @@ public abstract class SQLiteDAO
         return db.rawQuery(
                 "SELECT * FROM " + DB_TABLE + " WHERE " + COL_ID + " = " + id,
                 null);
-    }
-
-    protected String selectNameByID(String table, long id) throws SQLException
-    {
-        Cursor cr = db.rawQuery(
-                "SELECT * FROM " + table + " WHERE " + COL_ID + "=?",
-                new String[] { String.valueOf(id) });
-        if (cr == null) {
-            return null;
-        }
-        if (cr.getCount() < 1) {
-            cr.close();
-            return null;
-        }
-
-        int col = cr.getColumnIndexOrThrow(COL_NAME);
-        cr.moveToFirst();
-        String result = cr.getString(col);
-        cr.close();
-        return result;
-    }
-
-    protected long selectIDByName(String table, String name) throws SQLException
-    {
-        Cursor cr = db.rawQuery(
-                "SELECT * FROM " + table + " WHERE " + COL_NAME + "=?",
-                new String[] { name });
-        if (cr == null) {
-            return -1;
-        }
-        if (cr.getCount() < 1) {
-            cr.close();
-            return -1;
-        }
-
-        int col = cr.getColumnIndexOrThrow(COL_ID);
-        cr.moveToFirst();
-        long out = cr.getLong(col);
-        cr.close();
-        return out;
     }
 
     protected void fetchBaseData(Cursor cr, SQLiteRow row,

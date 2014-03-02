@@ -17,6 +17,7 @@ public class CourseModel extends SQLiteDAO {
     //Table-specific Columns
     public static final String COL_NUM = "number";
     public static final String COL_SUB = "subject";
+    public static final String COL_TITLE = "title";
     public static final String COL_DESC = "description";
 
     /**
@@ -47,9 +48,9 @@ public class CourseModel extends SQLiteDAO {
         // Grab the cursor's column indices
         // An error here indicates the COL constants aren't synced with the DB
         int ind_id   = cr.getColumnIndexOrThrow(COL_ID);
-        int ind_name = cr.getColumnIndexOrThrow(COL_NAME);
         int ind_sub  = cr.getColumnIndexOrThrow(COL_SUB);
         int ind_num  = cr.getColumnIndexOrThrow(COL_NUM);
+        int ind_title = cr.getColumnIndexOrThrow(COL_TITLE);
         int ind_desc = cr.getColumnIndexOrThrow(COL_DESC);
         int ind_dm   = cr.getColumnIndexOrThrow(COL_MDATE);
         int ind_dc   = cr.getColumnIndexOrThrow(COL_CDATE);
@@ -58,9 +59,9 @@ public class CourseModel extends SQLiteDAO {
         while (valid) {
             result[ii] = new CourseRow();
             fetchBaseData(cr, result[ii], ind_id, ind_dm, ind_dc);
-            result[ii].name        = cr.getString(ind_name);
             result[ii].subject     = cr.getString(ind_sub);
             result[ii].number      = cr.getString(ind_num);
+            result[ii].title        = cr.getString(ind_title);
             result[ii].description = cr.getString(ind_desc);
 
             valid = cr.moveToNext();
@@ -80,14 +81,13 @@ public class CourseModel extends SQLiteDAO {
     }
 
     /**
-     * Inserts a new entry into the workout table, defaults record to 0
+     * Inserts a new entry into the course table, defaults record to 0
      */
-    public long insert(String name, String number, String description)
+    public long insert(String number, String title, String description)
     {
         ContentValues cv = new ContentValues();
-        cv.put(COL_NAME, name);
-        cv.put(COL_SUB, name);
         cv.put(COL_NUM, number);
+        cv.put(COL_TITLE, title);
         cv.put(COL_DESC, description);
         return super.insert(cv);
     }

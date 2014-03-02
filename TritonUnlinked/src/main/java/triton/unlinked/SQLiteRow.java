@@ -10,7 +10,6 @@ import android.content.ContentValues;
  */
 public class SQLiteRow {
     public long _id;
-    public String name;
     public long date_modified;
     public long date_created;
 
@@ -18,7 +17,6 @@ public class SQLiteRow {
     public SQLiteRow(ContentValues vals)
     {
         _id = vals.getAsLong(SQLiteDAO.COL_ID);
-        name = vals.getAsString(SQLiteDAO.COL_NAME);
         date_modified = vals.getAsLong(SQLiteDAO.COL_MDATE);
         date_created = vals.getAsLong(SQLiteDAO.COL_CDATE);
     }
@@ -31,7 +29,6 @@ public class SQLiteRow {
     {
         ContentValues vals = new ContentValues();
         vals.put(SQLiteDAO.COL_ID, _id);
-        vals.put(SQLiteDAO.COL_NAME, name);
         vals.put(SQLiteDAO.COL_MDATE, date_modified);
         vals.put(SQLiteDAO.COL_CDATE, date_created);
         return vals;
