@@ -24,7 +24,7 @@
 		android:popupBackground="#C0000000"
         android:layout_below="@id/searchByHeader"/>
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/searchBox"
         android:layout_below="@id/searchOptionDropdown"
         android:layout_width="fill_parent"
