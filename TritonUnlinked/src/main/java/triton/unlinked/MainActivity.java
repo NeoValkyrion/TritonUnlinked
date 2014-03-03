@@ -180,18 +180,20 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     //helper method to create activity and pass in string data to locations based on
     //spinner values.
     private void prepAndCreateNewActivity(String str){
-        if(spinnerOption.equals("Courses")){
-            Intent i = new Intent(getApplicationContext(), CourseProfileActivity.class);
-            i.putExtra("SearchValue",str);
-            startActivity(i);}
-        if(spinnerOption.equals("Professors")){
-            Intent i = new Intent(getApplicationContext(), ProfessorProfileActivity.class);
-            i.putExtra("SearchValue",str);
-            startActivity(i);}
-        if(spinnerOption.equals("Rooms")){
-            Intent i = new Intent(getApplicationContext(), RoomActivity.class);
-            i.putExtra("SearchValue",str);
-            startActivity(i);}
+        if(!str.isEmpty()){
+            if(spinnerOption.equals("Courses")){
+                Intent i = new Intent(getApplicationContext(), CourseProfileActivity.class);
+                i.putExtra("SearchValue",str);
+                startActivity(i);}
+            else if(spinnerOption.equals("Professors")){
+                Intent i = new Intent(getApplicationContext(), ProfessorProfileActivity.class);
+                i.putExtra("SearchValue",str);
+                startActivity(i);}
+            else if(spinnerOption.equals("Rooms")){
+                Intent i = new Intent(getApplicationContext(), RoomActivity.class);
+                i.putExtra("SearchValue",str);
+                startActivity(i);}
+            }
     }
 
 }
