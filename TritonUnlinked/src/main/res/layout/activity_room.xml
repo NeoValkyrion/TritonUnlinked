@@ -63,7 +63,6 @@
         android:dividerHeight="0.0px"
         android:padding="0dip"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_below="@+id/room_number">
     </ListView>
 

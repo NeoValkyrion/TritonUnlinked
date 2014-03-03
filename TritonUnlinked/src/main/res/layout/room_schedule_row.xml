@@ -4,15 +4,16 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:minHeight="70dp"
     android:paddingTop="0dip"
     android:paddingBottom="0dip">
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:id="@+id/time_ll"
         android:layout_height="fill_parent"
         android:layout_width="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/label"
+            android:id="@+id/time"
             android:text="8:00"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -21,21 +22,31 @@
             android:layout_width="70dp"/>
     </LinearLayout>
     <RelativeLayout
-        android:id="@+id/LLdesign"
         android:orientation="horizontal"
         android:layout_height="70dp"
         android:layout_width="270dp">
-        <LinearLayout
-            android:id="@+id/eventsLL"
+        <!--<LinearLayout
+            android:id="@+id/schedule_block"
             android:orientation="vertical"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="0dip"
-            android:background="@drawable/eventbg">
+            android:background="@drawable/eventbg">-->
+            <View android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/schedule_block1"
+                android:background="@drawable/eventbg" />
+            <View android:id="@+id/schedule_block2"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/eventbg" />
             <View android:layout_width="fill_parent"
                 android:layout_height="2dp"
+                android:id="@+id/schedule_line"
                 android:background="#FFFFFF" />
             <TextView
+                android:id="@+id/course_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textbody"
@@ -44,13 +55,15 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"/>
             <TextView
+                android:id="@+id/start_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textbody"
                 android:text="start-end"
                 android:textSize="15sp"
-                android:layout_marginLeft="10dp"/>
-        </LinearLayout>
+                android:layout_marginLeft="10dp"
+                android:layout_below="@+id/course_name"/>
+        <!--</LinearLayout>-->
     </RelativeLayout>
 
 </LinearLayout>
