@@ -20,6 +20,7 @@ public class BrowseCoursesModel extends SQLiteDAO {
 
     public static final String COL_SUB      = "subject";
     public static final String COL_NUM      = "number";
+    public static final String COL_COURSE   = "course";
     public static final String COL_TITLE    = "title";
     public static final String COL_CID      = "course_id";
 
@@ -53,6 +54,7 @@ public class BrowseCoursesModel extends SQLiteDAO {
         int ind_id   = cr.getColumnIndexOrThrow(COL_ID);
         int ind_sub  = cr.getColumnIndexOrThrow(COL_SUB);
         int ind_num  = cr.getColumnIndexOrThrow(COL_NUM);
+        int ind_course  = cr.getColumnIndexOrThrow(COL_COURSE);
         int ind_title = cr.getColumnIndexOrThrow(COL_TITLE);
         int ind_cid   = cr.getColumnIndexOrThrow(COL_CID);
         int ind_dm   = cr.getColumnIndexOrThrow(COL_MDATE);
@@ -64,6 +66,7 @@ public class BrowseCoursesModel extends SQLiteDAO {
             fetchBaseData(cr, result[ii], ind_id, ind_dm, ind_dc);
             result[ii].subject     = cr.getString(ind_sub);
             result[ii].number      = cr.getString(ind_num);
+            result[ii].course      = cr.getString(ind_course);
             result[ii].title       = cr.getString(ind_title);
             result[ii].course_id   = cr.getString(ind_cid);
 
@@ -91,6 +94,7 @@ public class BrowseCoursesModel extends SQLiteDAO {
         ContentValues cv = new ContentValues();
         cv.put(COL_SUB, subject);
         cv.put(COL_NUM, number);
+        cv.put(COL_COURSE, subject + " " + number);
         cv.put(COL_TITLE, title);
         cv.put(COL_CID, course_id);
         return super.insert(cv);

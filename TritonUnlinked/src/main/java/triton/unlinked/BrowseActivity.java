@@ -48,12 +48,12 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
         subjectList = new ArrayList<String>();
 
         for (int i = 0; i < course_row_data.length; i++) {
-            subjectList.add(course_row_data[i].subject);
+            subjectList.add(course_row_data[i].course);
         }
 
         for (String s : subjectList)
         {
-            Log.d("Subject: ", s);
+            Log.d("Course: ", s);
         }
         //End Example code
 

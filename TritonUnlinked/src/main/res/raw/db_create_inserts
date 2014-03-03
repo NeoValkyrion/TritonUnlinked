@@ -4,9 +4,9 @@ INSERT INTO 'course' ('subject', 'number', 'title', 'description')
     UNION SELECT 'CSE', '100', 'Advanced Data Structures', 'Hope you like data structures'
     UNION SELECT 'CSE', '101', 'Advanced Algorithms', 'Hope you like algorithms'
 --###--
-INSERT INTO 'browse_courses' ('subject', 'number', 'title', 'course_id')
+INSERT INTO 'browse_courses' ('subject', 'number', 'course', 'title', 'course_id')
 
-	SELECT 'CSE' AS 'subject', '112' AS 'number', 'Advanced Software Engineering' AS 'title', '112112' AS 'course_id'
-    UNION SELECT 'CSE', '190', 'Mobile Programming', '190190'
-	UNION SELECT 'LTWL', '120', 'Tolkien and Middle Earth', '120120'
+	SELECT 'CSE' AS 'subject', '112' AS 'number', 'CSE 112' AS 'course', 'Advanced Software Engineering' AS 'title', '112112' AS 'course_id'
+    UNION SELECT 'CSE', '190', 'CSE 190', 'Mobile Programming', '190190'
+	UNION SELECT 'LTWL', '120', 'LTWL 120', 'Tolkien and Middle Earth', '120120'
 --###--
