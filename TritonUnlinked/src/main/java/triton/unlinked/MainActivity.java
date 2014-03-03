@@ -5,12 +5,15 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -19,14 +22,19 @@ import android.widget.Spinner;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnItemSelectedListener {
 
     private String[] options = {"Courses", "Professors","Rooms"};
     private BrowseCoursesModel course_model_data;
     private BrowseCoursesRow[] course_row_data;
     ArrayList<String> subjectList;
+
+    private String spinnerOption = "Courses";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,7 @@ public class MainActivity extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         ImageButton browseButton = (ImageButton) findViewById(R.id.browseButton);
         browseButton.setOnClickListener(new View.OnClickListener(){
@@ -60,6 +69,19 @@ public class MainActivity extends Activity {
         });
 
         final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.searchBox);
+
+        autoCompleteTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    prepAndCreateNewActivity(autoCompleteTextView.getText().toString());
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
         subjectList = new ArrayList<String>();
         course_model_data = new BrowseCoursesModel(this);
 
@@ -143,5 +165,34 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, RoomActivity.class);
         startActivity(intent);
     }
+
+    //Get value from spinner
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        spinnerOption = parent.getItemAtPosition(pos).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+    }
+
+    //helper method to create activity and pass in string data to locations based on
+    //spinner values.
+    private void prepAndCreateNewActivity(String str){
+        if(spinnerOption.equals("Courses")){
+            Intent i = new Intent(getApplicationContext(), CourseProfileActivity.class);
+            i.putExtra("SearchValue",str);
+            startActivity(i);}
+        if(spinnerOption.equals("Professors")){
+            Intent i = new Intent(getApplicationContext(), ProfessorProfileActivity.class);
+            i.putExtra("SearchValue",str);
+            startActivity(i);}
+        if(spinnerOption.equals("Rooms")){
+            Intent i = new Intent(getApplicationContext(), RoomActivity.class);
+            i.putExtra("SearchValue",str);
+            startActivity(i);}
+    }
+
 }
 
