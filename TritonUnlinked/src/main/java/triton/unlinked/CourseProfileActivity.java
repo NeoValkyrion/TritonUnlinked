@@ -74,7 +74,7 @@ public class CourseProfileActivity extends Activity {
 
         // Access the database and retrieve course data
         model_data.open();
-        pulled_data = model_data.getByID(2);
+        pulled_data = model_data.getByID(1);
         model_data.close();
         */
 

@@ -1,6 +1,12 @@
-INSERT INTO 'course' ('name', 'number', 'subject', 'description')
+INSERT INTO 'course' ('subject', 'number', 'title', 'description')
 
-	SELECT 'Intr/Computer Sci&Obj-Ori:Java' AS 'name', '11' AS 'number', 'CSE' AS 'subject', 'Computer science starts here'
-    UNION SELECT 'Advanced Data Structures', '100', 'CSE', 'Hope you like data structures'
-	UNION SELECT 'Advanced Algorithms', '101', 'CSE', 'Hope you like algorithms'
+    SELECT 'CSE' AS 'subject', '11' AS 'number', 'Intr/Computer Sci&Obj-Ori:Java' AS 'title', 'Computer science starts here' AS 'desc'
+    UNION SELECT 'CSE', '100', 'Advanced Data Structures', 'Hope you like data structures'
+    UNION SELECT 'CSE', '101', 'Advanced Algorithms', 'Hope you like algorithms'
+--###--
+INSERT INTO 'browse_courses' ('subject', 'number', 'title', 'course_id')
+
+	SELECT 'CSE' AS 'subject', '112' AS 'number', 'Advanced Software Engineering' AS 'title', '112112' AS 'course_id'
+    UNION SELECT 'CSE', '190', 'Mobile Programming', '190190'
+	UNION SELECT 'LTWL', '120', 'Tolkien and Middle Earth', '120120'
 --###--

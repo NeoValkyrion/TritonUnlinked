@@ -1,10 +1,21 @@
 CREATE TABLE course
 (
 	_id              INTEGER PRIMARY KEY,
-	name             TEXT UNIQUE NOT NULL,
-	number           TEXT NOT NULL,
 	subject          TEXT NOT NULL,
+	number           TEXT NOT NULL,
+	title            TEXT UNIQUE NOT NULL,
 	description      TEXT,
+	date_created     INTEGER,
+	date_modified    INTEGER
+);
+--###--
+CREATE TABLE browse_courses
+(
+	_id              INTEGER PRIMARY KEY,
+	subject          TEXT NOT NULL,
+	number           TEXT NOT NULL,
+	title            TEXT,
+	course_id        TEXT,
 	date_created     INTEGER,
 	date_modified    INTEGER
 );

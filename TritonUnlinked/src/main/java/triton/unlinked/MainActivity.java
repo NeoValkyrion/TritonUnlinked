@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,18 +12,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.graphics.Typeface;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
     private String[] options = {"Courses", "Professors","Rooms"};
+    private BrowseCoursesModel course_model_data;
+    private BrowseCoursesRow[] course_row_data;
+    ArrayList<String> subjectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        TextView myTextView=(TextView)findViewById(R.id.searchByHeader);
+        Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/Quicksand-Regular.otf");
+        myTextView.setTypeface(typeFace);
+
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -43,6 +58,29 @@ public class MainActivity extends Activity {
                 startActivity(i);
             }
         });
+
+        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.searchBox);
+        subjectList = new ArrayList<String>();
+        course_model_data = new BrowseCoursesModel(this);
+
+        // Access the database and retrieve list of subjects
+        course_model_data.open();
+        course_row_data = course_model_data.getAllCoursesRows();
+        course_model_data.close();
+
+        subjectList = new ArrayList<String>();
+
+        for (int i = 0; i < course_row_data.length; i++) {
+            subjectList.add(course_row_data[i].subject);
+        }
+
+        for (String s : subjectList)
+        {
+            Log.d("Subject: ", s);
+        }
+
+        ArrayAdapter<String> acAdapter = new ArrayAdapter<String>(this, R.layout.autocomplete_list_item, subjectList);
+        autoCompleteTextView.setAdapter(acAdapter);
     }
 
     @Override
