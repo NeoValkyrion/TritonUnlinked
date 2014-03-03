@@ -34,6 +34,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
+        TextView myTextView=(TextView)findViewById(R.id.searchByHeader);
+        Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/Quicksand-Regular.otf");
+        myTextView.setTypeface(typeFace);
+
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
