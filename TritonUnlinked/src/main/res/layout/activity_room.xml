@@ -40,7 +40,6 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/lecture_hall"
         android:id="@+id/lecture_hall"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true" />
@@ -50,7 +49,6 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/room_number"
         android:id="@+id/room_number"
         android:gravity="center"
         android:layout_below="@+id/lecture_hall" />

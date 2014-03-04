@@ -3,6 +3,14 @@ package triton.unlinked;
 import java.util.Locale;
 import java.util.Vector;
 
+//imports for pulling in data from db
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.util.Log;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -39,13 +47,57 @@ public class RoomActivity extends Activity {
      */
     //ViewPager mViewPager;
     ListView timeListView;
-    String[] times = {"8:00", "9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00","8:00", "9:00"};
+    String[] times = {"8:00a", "9:00a", "10:00a", "11:00a", "12:00p", "1:00p", "2:00p", "3:00p", "4:00p", "5:00p", "6:00p", "7:00p", "8:00p", "9:00p"};
 
+
+    private ProgressDialog pDialog;
+
+    /* sample JSON object for a room:
+     * {"bld":"CENTR",
+     * "room":"115",
+     * "map":"http://m.ucsd.edu/maps/isisCode/CENTR",
+     * "_id":"530c49cc7d98ddee06000009",
+     * "__v":0,
+     * "classes":[{"class":"CSE 11","day":"TuTh","time":"8:00a - 9:20a","_id":"530c49cc7d98ddee0600000a"}]}
+     */
+
+    //Temporary, must be replaced by constructed query string given course information
+    private static String url = "http://tritonunlinked.herokuapp.com/room?bld=CENTR&room=115";
+
+    private TextView bldView;
+    private TextView roomView;
+    private TextView courseNameView;
+    private TextView startEndView;
+
+    //JSON field tags for Room
+    private static final String TAG_BLD = "bld";
+    private static final String TAG_ROOM = "room";
+    private static final String TAG_CLASSES = "classes";
+    //JSON field tags for the classes array
+    private static final String TAG_CLASS = "class";
+    private static final String TAG_DAY = "day";
+    private static final String TAG_TIME = "time";
+
+    private String building;
+    private String room;
+    private JSONArray classesArr;
+    private JSONObject[] classes;
+    private String course;
+    private String start;
+    private String end;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
+
+        new GetRoom().execute();
+
+        //grab the data passed in from the search bar -- NEED TO CHANGE TO PROPER NAMES
+        /*Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("new_variable_name");
+        }*/
 
         RoomScheduleAdapter adapter = new RoomScheduleAdapter(this, times);
 
@@ -82,7 +134,81 @@ public class RoomActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    
+    /**
+     * Async task class to get json by making HTTP call
+     */
+    private class GetRoom extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(RoomActivity.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            //Create service handler class instance
+            ServiceHandler sh = new ServiceHandler();
+
+            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
+
+            Log.d("Response: ", "> " + jsonStr);
+
+            if(jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+
+                    //Save values from JSON Object
+                    building = jsonObj.getString(TAG_BLD);
+                    room = jsonObj.getString(TAG_ROOM);
+                    classesArr = jsonObj.getJSONArray(TAG_CLASSES);
+                    classes = new JSONObject[classesArr.length()];
+
+                    for(int i=0; i<classesArr.length(); i++) {
+                        Log.d("RoomActivity: ", "" + classesArr.getJSONObject(i));
+                        classes[i] = classesArr.getJSONObject(i);
+
+                        course = classes[i].getString(TAG_CLASS);
+                        String[] startEnd = classes[i].getString(TAG_TIME).split("-");
+                        start = startEnd[0];
+                        end = startEnd[1];
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("ServiceHandler", "Couldn't get any data from the url");
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            //Update local fields with values from JSON
+            bldView = (TextView) findViewById(R.id.lecture_hall);
+            bldView.setText(building);
+            roomView = (TextView) findViewById(R.id.room_number);
+            roomView.setText(room);
+
+            //TODO: need to access the data for each listview item (via the adapter?)
+            courseNameView = (TextView) findViewById(R.id.course_name);
+            courseNameView.setText(course);
+            startEndView = (TextView) findViewById(R.id.start_end);
+            startEndView.setText(start + "-" + end);
+
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+        }
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

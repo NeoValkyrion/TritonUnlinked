@@ -30,18 +30,24 @@ public class RoomScheduleAdapter extends ArrayAdapter<String> {
         //TODO: figure out how to set the text for the class and how to hide/show/resize the transparent rectangle based on class time/length
         View scheduleBlock1 = rowView.findViewById(R.id.schedule_block1);
         View scheduleBlock2 = rowView.findViewById(R.id.schedule_block2);
-        //scheduleBlock1.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 0));
+        scheduleBlock1.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 0));
         scheduleBlock2.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 0));
 
+        //for 50 minute classes...
+        /*int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, context.getResources().getDisplayMetrics());
+        RelativeLayout.LayoutParams schedBlock1Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
+        scheduleBlock1.setLayoutParams(schedBlock1Param);*/
+
         //sets the box to half the height of the listview item and halfway down (for classes that start at X:30)
-        /*int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, context.getResources().getDisplayMetrics());
+        /*int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, context.getResources().getDisplayMetrics());
         RelativeLayout.LayoutParams schedBlock2Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
         schedBlock2Param.setMargins(0, height, 0, 0);
         scheduleBlock2.setLayoutParams(schedBlock2Param);*/
 
-
         TextView courseName = (TextView) rowView.findViewById(R.id.course_name);
         TextView startEnd = (TextView) rowView.findViewById(R.id.start_end);
+        courseName.bringToFront();
+        startEnd.bringToFront();
         courseName.setText("");
         startEnd.setText("");
 

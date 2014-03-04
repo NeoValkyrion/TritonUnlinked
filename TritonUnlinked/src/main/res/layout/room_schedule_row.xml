@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:minHeight="70dp"
+    android:minHeight="30dp"
     android:paddingTop="0dip"
     android:paddingBottom="0dip">
     <LinearLayout
@@ -22,82 +22,39 @@
             android:layout_width="70dp"/>
     </LinearLayout>
     <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_width="270dp">
-        <!--<LinearLayout
-            android:id="@+id/schedule_block"
-            android:orientation="vertical"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:padding="0dip"
-            android:background="@drawable/eventbg">-->
-            <View android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/schedule_block1"
-                android:background="@drawable/eventbg" />
-            <View android:id="@+id/schedule_block2"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/eventbg" />
             <View android:layout_width="fill_parent"
                 android:layout_height="2dp"
                 android:id="@+id/schedule_line"
                 android:background="#FFFFFF" />
+            <View android:id="@+id/schedule_block1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/eventbg" />
+            <View android:id="@+id/schedule_block2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/eventbg" />
             <TextView
                 android:id="@+id/course_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textbody"
-                android:text="Course Name"
                 android:textSize="20sp"
-                android:layout_marginTop="10dp"
+                android:text="Course Name"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"/>
             <TextView
                 android:id="@+id/start_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textbody"
-                android:text="start-end"
                 android:textSize="15sp"
+                android:text="start-end"
                 android:layout_marginLeft="10dp"
                 android:layout_below="@+id/course_name"/>
-        <!--</LinearLayout>-->
     </RelativeLayout>
 
 </LinearLayout>
-
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="8:00"
-        android:id="@+id/label"
-        android:layout_centerVertical="true"
-        android:textSize="25sp"
-        android:textColor="@color/white"/>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/line"
-        android:layout_toRightOf="@id/label"
-        android:layout_alignTop="@id/label"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/white_line"/>
-
-    <ImageView
-        android:id="@+id/rectimage"
-        android:layout_height="60dp"
-        android:layout_width="260dp"
-        android:layout_marginLeft="80dp"
-        android:layout_below="@+id/line"
-        android:src="@drawable/rectangle_class">
-    </ImageView>
-
-</RelativeLayout>-->
