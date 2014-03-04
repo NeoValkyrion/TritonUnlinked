@@ -14,6 +14,7 @@ CREATE TABLE browse_courses
 	_id              INTEGER PRIMARY KEY,
 	subject          TEXT NOT NULL,
 	number           TEXT NOT NULL,
+	course           TEXT NOT NULL,
 	title            TEXT,
 	course_id        TEXT,
 	date_created     INTEGER,

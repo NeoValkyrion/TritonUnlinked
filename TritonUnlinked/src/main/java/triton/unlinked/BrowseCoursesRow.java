@@ -11,6 +11,7 @@ import android.content.ContentValues;
 public class BrowseCoursesRow extends SQLiteRow {
     public String subject;
     public String number;
+    public String course;
     public String title;
     public String course_id;
 
@@ -20,6 +21,7 @@ public class BrowseCoursesRow extends SQLiteRow {
         super(vals);
         subject = vals.getAsString(BrowseCoursesModel.COL_SUB);
         number = vals.getAsString(BrowseCoursesModel.COL_NUM);
+        course = vals.getAsString(BrowseCoursesModel.COL_COURSE);
         title = vals.getAsString(BrowseCoursesModel.COL_TITLE);
         title = vals.getAsString(BrowseCoursesModel.COL_CID);
     }
@@ -29,6 +31,7 @@ public class BrowseCoursesRow extends SQLiteRow {
         ContentValues vals = super.toContentValues();
         vals.put(BrowseCoursesModel.COL_SUB, subject);
         vals.put(BrowseCoursesModel.COL_NUM, number);
+        vals.put(BrowseCoursesModel.COL_COURSE, course);
         vals.put(BrowseCoursesModel.COL_TITLE, title);
         vals.put(BrowseCoursesModel.COL_CID, course_id);
         return vals;
