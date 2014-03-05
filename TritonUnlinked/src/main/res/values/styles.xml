@@ -23,4 +23,23 @@
 
     <style name="ButtonBarButton" />
 
+    <style name="BrowseActionBarTheme"
+        parent="android:Theme.Holo">
+        <item name="android:actionBarStyle">@style/BrowseActionBar</item>
+        <item name="android:actionBarTabStyle">@style/BrowseTabs</item>
+        <item name="android:textColor">@color/black_overlay</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="BrowseActionBar"
+        parent="android:Widget.Holo.ActionBar.Solid">
+        <item name="android:background">@color/triton_blue</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="BrowseTabs"
+        parent="android:Widget.Holo.Tab">
+        <item name="android:background">@color/triton_light_blue</item>
+    </style>
+
 </resources>

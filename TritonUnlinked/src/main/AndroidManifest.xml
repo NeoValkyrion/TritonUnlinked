@@ -52,7 +52,7 @@
             android:name="triton.unlinked.BrowseActivity"
             android:label="BrowseActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo">
+            android:theme="@style/BrowseActionBarTheme">
         </activity>
     </application>
 

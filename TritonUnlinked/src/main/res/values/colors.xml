@@ -1,6 +1,9 @@
 <resources>
 
     <color name="black_overlay">#66000000</color>
+    <color name="triton_blue">#366ab3</color>
+    <color name="triton_light_blue">#6497de</color>
+    <color name="action_bar_divider">#BBBBBB</color>
     <color name="textbody">#000000</color>
     <color name="white">#ffffff</color>
 
