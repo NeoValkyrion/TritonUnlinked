@@ -76,15 +76,16 @@ public class RoomActivity extends Activity {
     //JSON field tags for the classes array
     private static final String TAG_CLASS = "class";
     private static final String TAG_DAY = "day";
-    private static final String TAG_TIME = "time";
+    private static final String TAG_START = "startTime";
+    private static final String TAG_END = "endTime";
 
     private String building;
     private String room;
     private JSONArray classesArr;
     private JSONObject[] classes;
-    private String course;
-    private String start;
-    private String end;
+    private String[] course;
+    private String[] start;
+    private String[] end;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,15 +168,18 @@ public class RoomActivity extends Activity {
                     room = jsonObj.getString(TAG_ROOM);
                     classesArr = jsonObj.getJSONArray(TAG_CLASSES);
                     classes = new JSONObject[classesArr.length()];
+                    /*course = new String[classesArr.length()];
+                    start = new String[classesArr.length()];
+                    end = new String[classesArr.length()];*/
+
 
                     for(int i=0; i<classesArr.length(); i++) {
                         Log.d("RoomActivity: ", "" + classesArr.getJSONObject(i));
                         classes[i] = classesArr.getJSONObject(i);
 
-                        course = classes[i].getString(TAG_CLASS);
-                        String[] startEnd = classes[i].getString(TAG_TIME).split("-");
-                        start = startEnd[0];
-                        end = startEnd[1];
+                        /*course[i] = classes[i].getString(TAG_CLASS);
+                        start[i] = classes[i].getString(TAG_START);
+                        end[i] = classes[i].getString(TAG_END);*/
                     }
 
                 } catch (JSONException e) {
@@ -200,9 +204,9 @@ public class RoomActivity extends Activity {
 
             //TODO: need to access the data for each listview item (via the adapter?)
             courseNameView = (TextView) findViewById(R.id.course_name);
-            courseNameView.setText(course);
+            //courseNameView.setText(course[0]);
             startEndView = (TextView) findViewById(R.id.start_end);
-            startEndView.setText(start + "-" + end);
+            //startEndView.setText(start[0] + "-" + end[0]);
 
             // Dismiss the progress dialog
             if (pDialog.isShowing())
