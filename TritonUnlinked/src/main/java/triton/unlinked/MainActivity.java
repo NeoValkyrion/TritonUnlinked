@@ -93,7 +93,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         subjectList = new ArrayList<String>();
 
         for (int i = 0; i < course_row_data.length; i++) {
-            subjectList.add(course_row_data[i].subject);
+            subjectList.add(course_row_data[i].course);
         }
 
         for (String s : subjectList)
