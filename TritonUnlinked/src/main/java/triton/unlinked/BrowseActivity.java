@@ -27,38 +27,15 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
 
     private static final String CURRENT_NAV_ITEM = "current_selected_nav_item";
 
-    private BrowseCoursesModel course_model_data;
-    private BrowseCoursesRow[] course_row_data;
-    ArrayList<String> subjectList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse);
 
-        subjectList = new ArrayList<String>();
-        course_model_data = new BrowseCoursesModel(this);
-
-        //Start Example code, feel free to modify/delete
-        // Access the database and retrieve list of subjects
-        course_model_data.open();
-        course_row_data = course_model_data.getAllCoursesRows();
-        course_model_data.close();
-
-        subjectList = new ArrayList<String>();
-
-        for (int i = 0; i < course_row_data.length; i++) {
-            subjectList.add(course_row_data[i].course);
-        }
-
-        for (String s : subjectList)
-        {
-            Log.d("Course: ", s);
-        }
-        //End Example code
-
-
         final ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+        actionBar.setCustomView(R.layout.action_bar);
+        //actionBar.setIcon(android.R.color.transparent);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         actionBar.addTab(actionBar.newTab().setText("Courses").setTabListener(this));
