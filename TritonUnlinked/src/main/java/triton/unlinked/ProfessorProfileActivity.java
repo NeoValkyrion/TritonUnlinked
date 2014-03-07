@@ -1,100 +1,187 @@
 package triton.unlinked;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 
-public class ProfessorProfileActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+import java.util.Locale;
+
+public class ProfessorProfileActivity extends Activity {
 
     /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * fragments for each of the sections. We use a
+     * {@link FragmentPagerAdapter} derivative, which will keep every
+     * loaded fragment in memory. If this becomes too memory intensive, it
+     * may be best to switch to a
+     * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+    SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
+     * The {@link ViewPager} that will host the section contents.
      */
-    private CharSequence mTitle;
+    ViewPager mViewPager;
+
+    private ProgressDialog pDialog;
+
+    //Temporary, must be replaced by constructed query string given course information
+    private static String url = "http://tritonunlinked.herokuapp.com/courseinfo?dept=CSE&subject=CSE&num=101";
+
+
+    private TextView courseNameView;
+    private TextView courseNumView;
+    private TextView courseSubView;
+    private TextView courseDescView;
+
+    //JSON field tags for Courses
+    private static final String TAG_SUBJECT = "subject";
+    private static final String TAG_NUMBER = "num";
+
+    //
+    private String subject;
+    private String number;
+
+    //Local Database stuff
+    /*
+    private CourseModel model_data;
+    private CourseRow pulled_data;
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_professor_profile);
+        setContentView(R.layout.activity_course_profile);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        new GetCourse().execute();
 
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        //Local Database stuff
+        /*
+        model_data = new CourseModel(this);
+
+        // Access the database and retrieve course data
+        model_data.open();
+        pulled_data = model_data.getByID(1);
+        model_data.close();
+        */
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
     }
 
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-    }
+    /**
+     * Async task class to get json by making HTTP call
+     */
+    private class GetCourse extends AsyncTask<Void, Void, Void> {
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(ProfessorProfileActivity.this);
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            //Create service handler class instance
+            ServiceHandler sh = new ServiceHandler();
+
+            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
+
+            Log.d("Response: ", "> " + jsonStr);
+
+            if(jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+
+                    //Save values from JSON Object
+                    subject = jsonObj.getString(TAG_SUBJECT);
+                    number = jsonObj.getString(TAG_NUMBER);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("ServiceHandler", "Couldn't get any data from the url");
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            //Update local fields with values from JSON
+            courseSubView = (TextView) findViewById(R.id.course_sub);
+            courseSubView.setText(subject);
+            courseNumView = (TextView) findViewById(R.id.course_num);
+            courseNumView.setText(number);
+
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
         }
     }
 
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.professor_profile, menu);
-            restoreActionBar();
-            return true;
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return PlaceholderFragment.newInstance(position + 1);
         }
-        return super.onOptionsItemSelected(item);
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Locale l = Locale.getDefault();
+            switch (position) {
+                case 0:
+                    return getString(R.string.title_section1).toUpperCase(l);
+                case 1:
+                    return getString(R.string.title_section2).toUpperCase(l);
+                case 2:
+                    return getString(R.string.title_section3).toUpperCase(l);
+            }
+            return null;
+        }
     }
 
     /**
@@ -124,19 +211,11 @@ public class ProfessorProfileActivity extends Activity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_professor_profile, container, false);
-            //TODO: CHANGE THIS LATER implement a good way to jump between "comments"
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_course_profile, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Professor : Professor Name");
+            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((ProfessorProfileActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
 
