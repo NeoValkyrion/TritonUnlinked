@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/course_desc"
+        android:text="@string/professor_classlist"
         android:id="@+id/prof_desc"
         android:layout_marginTop="40dp"
         android:textColor="@color/textbody"/>
@@ -22,10 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/course_section"
-        android:id="@+id/prof_section"
+        android:text="ratemyprof?"
+        android:id="@+id/prof_comment_section"
         android:layout_marginTop="62dp"
-        android:layout_below="@+id/proff_desc"
+        android:layout_below="@+id/prof_desc"
         android:textColor="@color/textbody"/>
 
 

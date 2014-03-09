@@ -39,21 +39,16 @@ public class ProfessorProfileActivity extends Activity {
     private ProgressDialog pDialog;
 
     //Temporary, must be replaced by constructed query string given course information
-    private static String url = "http://tritonunlinked.herokuapp.com/courseinfo?dept=CSE&subject=CSE&num=101";
+    private static String url = "http://tritonunlinked.herokuapp.com/professor?name=Ord%2C+Richard";
 
 
-    private TextView courseNameView;
-    private TextView courseNumView;
-    private TextView courseSubView;
-    private TextView courseDescView;
+    private TextView professorNameView;
+    private TextView professorDescView;
 
     //JSON field tags for Courses
-    private static final String TAG_SUBJECT = "subject";
-    private static final String TAG_NUMBER = "num";
+    private static final String TAG_NAME = "Richard Ord";
 
-    //
-    private String subject;
-    private String number;
+    private String name;
 
     //Local Database stuff
     /*
@@ -64,30 +59,23 @@ public class ProfessorProfileActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_profile);
+        setContentView(R.layout.activity_professor_profile);
 
-        new GetCourse().execute();
-
-        //Local Database stuff
-        /*
-        model_data = new CourseModel(this);
-
-        // Access the database and retrieve course data
-        model_data.open();
-        pulled_data = model_data.getByID(1);
-        model_data.close();
-        */
+        //TODO: update with a GetProfessor().execute once the internal database has been flushed out
+        //new GetCourse().execute();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = (ViewPager) findViewById(R.id.prof_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
     }
 
+
+    //TODO: update with GetProfessor Async method
     /**
      * Async task class to get json by making HTTP call
      */
@@ -117,8 +105,7 @@ public class ProfessorProfileActivity extends Activity {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     //Save values from JSON Object
-                    subject = jsonObj.getString(TAG_SUBJECT);
-                    number = jsonObj.getString(TAG_NUMBER);
+                    name = jsonObj.getString(TAG_NAME);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,10 +122,8 @@ public class ProfessorProfileActivity extends Activity {
             super.onPostExecute(result);
 
             //Update local fields with values from JSON
-            courseSubView = (TextView) findViewById(R.id.course_sub);
-            courseSubView.setText(subject);
-            courseNumView = (TextView) findViewById(R.id.course_num);
-            courseNumView.setText(number);
+            professorNameView = (TextView) findViewById(R.id.professor_header);
+            professorNameView.setText(name);
 
             // Dismiss the progress dialog
             if (pDialog.isShowing())
