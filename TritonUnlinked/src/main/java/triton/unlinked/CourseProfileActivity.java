@@ -1,15 +1,10 @@
 package triton.unlinked;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +14,12 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-public class CourseProfileActivity extends Activity {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class CourseProfileActivity extends FragmentActivity implements CourseProfileAsyncFragment.TaskCallbacks {
+    private static final String TAG = CourseProfileActivity.class.getSimpleName();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -36,24 +36,19 @@ public class CourseProfileActivity extends Activity {
      */
     ViewPager mViewPager;
 
-    private ProgressDialog pDialog;
-
-    //Temporary, must be replaced by constructed query string given course information
-    private static String url = "http://tritonunlinked.herokuapp.com/courseinfo?dept=CSE&subject=CSE&num=101";
-
-
     private TextView courseNameView;
     private TextView courseNumView;
     private TextView courseSubView;
     private TextView courseDescView;
 
-    //JSON field tags for Courses
-    private static final String TAG_SUBJECT = "subject";
-    private static final String TAG_NUMBER = "num";
+    private JSONObject courseJson;
 
-    //
+    //Variables pertaining to a particular course
     private String subject;
     private String number;
+    private String title;
+    private String desc;
+    private JSONArray sectionsJson;
 
     //Local Database stuff
     /*
@@ -61,22 +56,27 @@ public class CourseProfileActivity extends Activity {
     private CourseRow pulled_data;
     */
 
+    private CourseProfileAsyncFragment mTaskFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate(Bundle)");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_profile);
 
-        new GetCourse().execute();
+        //Initialize views
+        courseSubView = (TextView) findViewById(R.id.course_sub);
+        courseNumView = (TextView) findViewById(R.id.course_num);
 
-        //Local Database stuff
-        /*
-        model_data = new CourseModel(this);
+        FragmentManager fm = getFragmentManager();
+        mTaskFragment = (CourseProfileAsyncFragment) fm.findFragmentByTag("task");
 
-        // Access the database and retrieve course data
-        model_data.open();
-        pulled_data = model_data.getByID(1);
-        model_data.close();
-        */
+        // If the Async Fragment is non-null, then it is currently being
+        // retained across a configuration change.
+        if (mTaskFragment == null) {
+            mTaskFragment = new CourseProfileAsyncFragment();
+            fm.beginTransaction().add(mTaskFragment, "task").commit();
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -88,61 +88,23 @@ public class CourseProfileActivity extends Activity {
 
     }
 
-    /**
-     * Async task class to get json by making HTTP call
+    /*
+     * Callback methods from CourseProfileAsyncFragment
      */
-    private class GetCourse extends AsyncTask<Void, Void, Void> {
+    @Override
+    public void onPreExecute() {
+        Log.i(TAG, "onPreExecute()");
+    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    @Override
+    public void onPostExecute(JSONObject course) {
+        Log.i(TAG, "onPostExecute()");
+        try {
+            courseSubView.setText(course.getString("subject"));
+            courseNumView.setText(course.getString("num"));
 
-            pDialog = new ProgressDialog(CourseProfileActivity.this);
-            pDialog.setMessage("Please wait...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            //Create service handler class instance
-            ServiceHandler sh = new ServiceHandler();
-
-            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
-
-            Log.d("Response: ", "> " + jsonStr);
-
-            if(jsonStr != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-
-                    //Save values from JSON Object
-                    subject = jsonObj.getString(TAG_SUBJECT);
-                    number = jsonObj.getString(TAG_NUMBER);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.e("ServiceHandler", "Couldn't get any data from the url");
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            //Update local fields with values from JSON
-            courseSubView = (TextView) findViewById(R.id.course_sub);
-            courseSubView.setText(subject);
-            courseNumView = (TextView) findViewById(R.id.course_num);
-            courseNumView.setText(number);
-
-            // Dismiss the progress dialog
-            if (pDialog.isShowing())
-                pDialog.dismiss();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -159,8 +121,8 @@ public class CourseProfileActivity extends Activity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            // Return a CourseFragment (defined as a static inner class below).
+            return CourseFragment.newInstance(position + 1);
         }
 
         @Override
@@ -187,7 +149,19 @@ public class CourseProfileActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class CourseFragment extends Fragment {
+
+        //Variables pertaining to a single section
+        private String number;
+        private String professor;
+        private JSONArray classesJson;
+
+        //Variables pertaining to a single class
+        private String type;
+
+        private TextView sectionNumView;
+        private TextView sectionProfView;
+
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -198,25 +172,61 @@ public class CourseProfileActivity extends Activity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static CourseFragment newInstance(int sectionNumber) {
+            CourseFragment fragment = new CourseFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public PlaceholderFragment() {
+        public CourseFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_course_profile, container, false);
+            sectionNumView = (TextView) rootView.findViewById(R.id.course_section);
+            sectionProfView = (TextView) rootView.findViewById(R.id.course_section_prof);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
 
+    /*
+     * Handy logging methods for lifecycle debugging
+     */
+    /*
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        Log.i(TAG, "onActivityCreated(Bundle)");
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        Log.i(TAG, "onStart()");
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        Log.i(TAG, "onResume()");
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Log.i(TAG, "onPause()");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.i(TAG, "onStop()");
+        super.onStop();
+    }
+    */
 }
