@@ -182,7 +182,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     private void checkInputAndCreateNewActivity(String str){
         boolean found = false;
         for(String a: subjectList){
-            if(a.equals(str)){
+            if(a.equalsIgnoreCase(str)){
                 found = true;
             }
         }
