@@ -80,11 +80,26 @@ public class BrowseCoursesFragment extends ListFragment {
                 this.courseCourseList.add(course_row_data[i].course);
                 this.courseTitleList.add(course_row_data[i].title);
             }
-            Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.push_left_out);
-            v.startAnimation(anim);
 
-            browseAdapter.addCourseRow(this.courseCourseList, this.courseTitleList);
-            browseAdapter.notifyDataSetChanged();
+            Animation anim = AnimationUtils.loadAnimation(browseActivity, R.anim.push_left_out);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    browseAdapter.addCourseRow(BrowseCoursesFragment.this.courseCourseList, BrowseCoursesFragment.this.courseTitleList);
+                    browseAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            list.getChildAt(position).startAnimation(anim);
         }
         else{
             //If clicked subject code, then now on course number page. then link to course profiles

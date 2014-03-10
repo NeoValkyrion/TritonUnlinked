@@ -63,10 +63,8 @@ public class BrowseProfessorsFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView list, View v, int position, long id) {
-        String[] profNameArr = professors.get(position).split(" ");
         Intent i = new Intent(getActivity(), ProfessorProfileActivity.class);
-        i.putExtra("fname", profNameArr[0]);
-        i.putExtra("lname", profNameArr[profNameArr.length-1]);
+        i.putExtra("name", professors.get(position));
         startActivity(i);
     }
     public void onBackPressed(){
