@@ -21,3 +21,12 @@ CREATE TABLE browse_courses
 	date_modified    INTEGER
 );
 --###--
+CREATE TABLE browse_professors
+(
+    _id             INTEGER PRIMARY KEY,
+    lname           TEXT NOT NULL,
+    fname           TEXT NOT NULL,
+    date_created    INTEGER,
+    date_modified   INTEGER
+);
+--###--
