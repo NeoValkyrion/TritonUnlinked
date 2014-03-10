@@ -26,6 +26,9 @@ import java.util.ArrayList;
 public class BrowseActivity extends FragmentActivity implements ActionBar.TabListener{
 
     private static final String CURRENT_NAV_ITEM = "current_selected_nav_item";
+    private boolean isOnCourses = true;
+    private BrowseCoursesFragment browseCoursesFrag;
+    private BrowseProfessorsFragment browseProfFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +78,13 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
     @Override
     public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
         if (tab.getPosition() == 0) {
-            BrowseCoursesFragment browseCoursesFrag = new BrowseCoursesFragment();
+            browseCoursesFrag = new BrowseCoursesFragment();
             getFragmentManager().beginTransaction().replace(R.id.activityBrowseContainer, browseCoursesFrag).commit();
         }
         else if (tab.getPosition() == 1) {
-            BrowseProfessorsFragment browseProfFrag = new BrowseProfessorsFragment();
+            browseProfFrag = new BrowseProfessorsFragment();
             getFragmentManager().beginTransaction().replace(R.id.activityBrowseContainer, browseProfFrag).commit();
+            this.isOnCourses = false;
         }
     }
 
@@ -92,5 +96,14 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
     @Override
     public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
 
+    }
+    @Override
+    public void onBackPressed(){
+        if(isOnCourses){
+            browseCoursesFrag.onBackPressed();
+        }
+        else{
+            //browseProfFrag.onBackPressed();
+        }
     }
 }
