@@ -1,5 +1,6 @@
 package triton.unlinked;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,16 +40,28 @@ public class ProfessorProfileActivity extends Activity {
     private ProgressDialog pDialog;
 
     //Temporary, must be replaced by constructed query string given course information
-    private static String url = "http://tritonunlinked.herokuapp.com/professor?name=Ord%2C+Richard";
+    private static String url = "http://tritonunlinked.herokuapp.com/professor?fname=Paul&lname=Kube";
 
 
     private TextView professorNameView;
     private TextView professorDescView;
 
     //JSON field tags for Courses
-    private static final String TAG_NAME = "Richard Ord";
+    private static final String TAG_NAME = "name";
+    private static final String TAG_FIRSTNAME = "firstName";
+    private static final String TAG_LASTNAME = "lastName";
+    private static final String TAG_CODE = "code";
+    private static final String TAG_TITLE = "title";
 
     private String name;
+    private String firstName;
+    private String lastName;
+    private String code;
+    private String title;
+    //private JSONArray profName;
+    //Professor names
+    //private JSONObject[] profs;
+
 
     //Local Database stuff
     /*
@@ -106,6 +119,9 @@ public class ProfessorProfileActivity extends Activity {
 
                     //Save values from JSON Object
                     name = jsonObj.getString(TAG_NAME);
+                    firstName = jsonObj.getString(TAG_FIRSTNAME);
+                    lastName = jsonObj.getString(TAG_LASTNAME);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();

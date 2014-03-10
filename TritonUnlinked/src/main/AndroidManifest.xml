@@ -41,7 +41,7 @@
             android:name="triton.unlinked.ProfessorProfileActivity"
             android:label="@string/title_activity_professor_profile"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo">
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
         </activity>
         <activity
             android:name="triton.unlinked.RoomActivity"

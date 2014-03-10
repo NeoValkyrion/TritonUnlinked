@@ -8,8 +8,8 @@
     tools:ignore="MergeRootFrame" >
 
     <ImageView
-        android:layout_width="280dp"
-        android:layout_height="379dp"
+        android:layout_width="332dp"
+        android:layout_height="442dp"
         android:id="@+id/imageView"
         android:layout_gravity="center"
         android:src="@drawable/logo_triton2"/>
