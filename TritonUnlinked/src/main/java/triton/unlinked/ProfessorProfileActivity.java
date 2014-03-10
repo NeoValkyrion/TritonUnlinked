@@ -40,7 +40,7 @@ public class ProfessorProfileActivity extends Activity {
     private ProgressDialog pDialog;
 
     //Temporary, must be replaced by constructed query string given course information
-    private static String url = "http://tritonunlinked.herokuapp.com/professor?fname=Paul&lname=Kube";
+    //private static String url = "http://tritonunlinked.herokuapp.com/professor?fname=Paul&lname=Kube";
 
 
     private TextView professorNameView;
@@ -73,6 +73,17 @@ public class ProfessorProfileActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_profile);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+
+            String value = extras.getString("SearchValue");
+            String[] dataSplit = value.split(" ");
+            firstName = dataSplit[0];
+            lastName = dataSplit[1];
+            Log.v("TAG", firstName);
+            Log.v("TAG", lastName);
+        }
 
         //TODO: update with a GetProfessor().execute once the internal database has been flushed out
         //new GetCourse().execute();
@@ -108,9 +119,10 @@ public class ProfessorProfileActivity extends Activity {
         protected Void doInBackground(Void... arg0) {
             //Create service handler class instance
             ServiceHandler sh = new ServiceHandler();
-
-            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
-
+            String jsonStr = null;
+            if(firstName != null && lastName != null){
+                jsonStr = sh.makeServiceCall(generateUrl(firstName,lastName), ServiceHandler.GET);
+            }
             Log.d("Response: ", "> " + jsonStr);
 
             if(jsonStr != null) {
@@ -216,6 +228,10 @@ public class ProfessorProfileActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_professor_profile, container, false);
             return rootView;
         }
+    }
+
+    private String generateUrl(String fname, String lname){
+        return "http://tritonunlinked.herokuapp.com/professor?fname="+ firstName +"&lname=" + lastName + "";
     }
 
 }
