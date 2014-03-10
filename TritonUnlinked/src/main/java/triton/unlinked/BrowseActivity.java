@@ -103,7 +103,7 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
             browseCoursesFrag.onBackPressed();
         }
         else{
-            //browseProfFrag.onBackPressed();
+            browseProfFrag.onBackPressed();
         }
     }
 }

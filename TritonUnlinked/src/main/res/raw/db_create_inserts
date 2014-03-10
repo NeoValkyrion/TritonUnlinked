@@ -10,3 +10,10 @@ INSERT INTO 'browse_courses' ('subject', 'number', 'course', 'title', 'course_id
     UNION SELECT 'CSE', '190', 'CSE 190', 'Mobile Programming', '190190'
 	UNION SELECT 'LTWL', '120', 'LTWL 120', 'Tolkien and Middle Earth', '120120'
 --###--
+INSERT INTO 'browse_professors' ('lname', 'fname')
+
+    SELECT 'Kube' AS 'lname', 'Paul' AS 'fname'
+    UNION SELECT 'George' AS 'lname', 'Paul' AS 'fname'
+    UNION SELECT 'Shakur' AS 'lname', 'Tupac' AS 'fname'
+    UNION SELECT 'Kao' AS 'lname', 'Jeremy' AS 'fname'
+--###--
