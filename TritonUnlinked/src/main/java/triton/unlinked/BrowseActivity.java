@@ -22,7 +22,6 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
-import com.google.analytics.tracking.android.EasyTracker;
 
 public class BrowseActivity extends FragmentActivity implements ActionBar.TabListener{
 
@@ -31,11 +30,11 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
     private BrowseCoursesFragment browseCoursesFrag;
     private BrowseProfessorsFragment browseProfFrag;
 
-    @Override
-    public void onStart(){
-        super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
-    }
+//    @Override
+//    public void onStart(){
+//        super.onStart();
+//        EasyTracker.getInstance(this).activityStart(this);
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
