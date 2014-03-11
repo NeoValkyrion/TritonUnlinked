@@ -2,11 +2,14 @@ package triton.unlinked;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,34 +25,15 @@ import java.util.Arrays;
  */
 public class BrowseCoursesFragment extends ListFragment {
 
-    private ArrayList<String> subjCode, bicdCoursesNum, bicdCoursesTitle, cseCoursesNum, cseCoursesTitle;
-    private ArrayList<String> currMenuItems;
-    private Boolean subjCodeIsDisplayed, courseNumIsDisplayed;
-
     Activity browseActivity;
     private BrowseCoursesModel course_model_data;
     private BrowseCoursesRow[] course_row_data;
     ArrayList<String> subjectList;
-    ArrayList<String> courseTitleList;
-    ArrayList<String> courseDescList;
+    ArrayList<String> courseCourseList = new ArrayList<String>();
+    ArrayList<String> courseTitleList = new ArrayList<String>();
     private BrowseCoursesAdapter browseAdapter;
 
     public BrowseCoursesFragment(){
-        /*
-        subjCode = new ArrayList<String>(Arrays.asList("BICD", "BIMM", "CHEM", "CSE"));
-        bicdCoursesNum = new ArrayList<String>(Arrays.asList("100", "110", "130", "134", "194", "210", "214", "215", "216", "218", "223", "273"));
-        bicdCoursesTitle = new ArrayList<String>(Arrays.asList("Genetics", "Cell Biology", "Embryos, Genes, & Development",
-                "Human Reproduction & Development", "Adv Topics-Cellular Dev"));
-        cseCoursesNum = new ArrayList<String>(Arrays.asList("3", "7", "8A", "8B", "100", "110"));
-        cseCoursesTitle = new ArrayList<String>(Arrays.asList("Fluency in Information Technology", "Introduction to Matlab",
-                "Intro to Java", "Intro to OOP", "Advanced Data Structures", "Software Engineering"));
-        */
-       // currMenuItems = new ArrayList<String>();
-       // for (int i = 0; i < subjCode.length; ++i){
-       //     currMenuItems.add(subjCode[i]);
-       // }
-       // subjCodeIsDisplayed = true;
-       // courseNumIsDisplayed = false;
 
     }
     @Override
@@ -57,16 +41,18 @@ public class BrowseCoursesFragment extends ListFragment {
         super.onAttach(activity);
         browseActivity = activity;
 
-        subjectList = new ArrayList<String>();
         course_model_data = new BrowseCoursesModel(this.browseActivity);
         // Access the database and retrieve list of subjects
         course_model_data.open();
-        course_row_data = course_model_data.getAllCoursesRows();
+        subjectList = course_model_data.getAllSubjects();
         course_model_data.close();
 
-        for (int i = 0; i < course_row_data.length; i++) {
+
+        browseAdapter = new BrowseCoursesAdapter(this.getActivity(), this.subjectList, new ArrayList<String>());
+        this.setListAdapter(browseAdapter);
+        /*for (int i = 0; i < course_row_data.length; i++) {
             subjectList.add(course_row_data[i].subject);
-        }
+        }*/
 
     }
     @Override
@@ -74,12 +60,7 @@ public class BrowseCoursesFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         //browseAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, currMenuItems);
-        browseAdapter = new BrowseCoursesAdapter(getActivity(), this.subjectList, new ArrayList<String>());
-        setListAdapter(browseAdapter);
-        subjCodeIsDisplayed = true;
-        courseNumIsDisplayed = false;
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_browse, container, false);
@@ -87,16 +68,57 @@ public class BrowseCoursesFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView list, View v, int position, long id) {
-        if (subjCodeIsDisplayed){
-                    browseAdapter.addTitle(bicdCoursesNum);
-                    browseAdapter.addDescription(bicdCoursesTitle);
-                    browseAdapter.notifyDataSetChanged();
+        if (!browseAdapter.getDisplayingCourseAndTitle()){
+            this.courseTitleList.clear();
+            this.courseCourseList.clear();
 
-            subjCodeIsDisplayed = false;
-            courseNumIsDisplayed = true;
+            course_model_data.open();
+            course_row_data = course_model_data.getAllBySubject(subjectList.get(position));
+            course_model_data.close();
+
+            for (int i = 0; i < course_row_data.length; ++i){
+                this.courseCourseList.add(course_row_data[i].course);
+                this.courseTitleList.add(course_row_data[i].title);
+            }
+
+            Animation anim = AnimationUtils.loadAnimation(browseActivity, R.anim.push_left_out);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    browseAdapter.addCourseRow(BrowseCoursesFragment.this.courseCourseList, BrowseCoursesFragment.this.courseTitleList);
+                    browseAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            list.getChildAt(position).startAnimation(anim);
         }
         else{
             //If clicked subject code, then now on course number page. then link to course profiles
+            String[] courseTitle = this.courseTitleList.get(position).split(" ");
+            Intent intent = new Intent(getActivity(), CourseProfileActivity.class);
+            intent.putExtra("subject", courseTitle[0]);
+            intent.putExtra("num", courseTitle[courseTitle.length-1]);
+            startActivity(intent);
+        }
+
+    }
+    public void onBackPressed(){
+        if (browseAdapter.getDisplayingCourseAndTitle()){
+            browseAdapter.addCourseRow(this.subjectList, new ArrayList<String>());
+            browseAdapter.notifyDataSetChanged();
+        }
+        else{
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         }
 
     }

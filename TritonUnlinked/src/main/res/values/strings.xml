@@ -38,6 +38,7 @@
     <!-- Professor Profile Activity Strings -->
 
     <string name="title_activity_professor_profile">ProfessorProfileActivity</string>
+    <string name="professor_classlist">A list of classes retrieved form the JSON that represents classes currently taught by the professor.  Should link to corresponding course page?</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

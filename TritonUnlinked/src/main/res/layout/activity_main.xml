@@ -33,19 +33,11 @@
         android:inputType="textAutoComplete"
         android:imeOptions="actionSearch"/>
     <!--android:padding="0dp" had removed padding for better style -->
-    <ImageButton
-        android:id="@+id/goButton"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/searchBox"
-        android:src="@drawable/magnify"
-        android:scaleType="centerCrop"
-        android:layout_marginRight="5dp"
-        android:layout_width="40sp"
-        android:layout_height="40sp" />
+
     <ImageButton
         android:id="@+id/browseButton"
         android:layout_below="@id/searchBox"
-        android:layout_toLeftOf="@id/goButton"
+        android:layout_alignParentRight="true"
         android:scaleType="centerCrop"
         android:padding="0dp"
         android:layout_marginRight="5dp"

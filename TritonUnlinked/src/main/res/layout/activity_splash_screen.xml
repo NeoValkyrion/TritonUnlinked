@@ -3,15 +3,15 @@
     android:id="@+id/splashScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#366ab5"
+    android:background="@color/white"
     tools:context="triton.unlinked.SplashScreenActivity"
     tools:ignore="MergeRootFrame" >
 
     <ImageView
-        android:layout_width="280dp"
-        android:layout_height="379dp"
+        android:layout_width="332dp"
+        android:layout_height="442dp"
         android:id="@+id/imageView"
         android:layout_gravity="center"
-        android:src="@drawable/logo_triton"/>
+        android:src="@drawable/logo_triton2"/>
 
 </FrameLayout>

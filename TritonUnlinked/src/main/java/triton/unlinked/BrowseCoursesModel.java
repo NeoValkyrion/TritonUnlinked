@@ -77,7 +77,27 @@ public class BrowseCoursesModel extends SQLiteDAO {
         cr.close();
         return result;
     }
+    private ArrayList<String> fetchBrowseCoursesSubjectRows(Cursor cr){
+        if (cr == null)
+            return null;
+        ArrayList<String> result = new ArrayList<String>();
 
+        boolean valid = cr.moveToFirst();
+
+        // Grab the cursor's column indices
+        // An error here indicates the COL constants aren't synced with the DB
+        int ind_sub  = cr.getColumnIndexOrThrow(COL_SUB);
+
+        // Iterate over every row (move the cursor down the set)
+        while (valid) {
+            result.add(cr.getString(ind_sub));
+
+            valid = cr.moveToNext();
+        }
+
+        cr.close();
+        return result;
+    }
     /**
      * Inserts a new entry into the course table
      */
@@ -159,5 +179,14 @@ public class BrowseCoursesModel extends SQLiteDAO {
         String[] val = { String.valueOf(sub) };
         Cursor cr = select(col, val);
         return fetchBrowseCoursesRows(cr);
+    }
+
+    /**
+     * Fetch all BrowseCourseSubjects
+     */
+
+    public ArrayList<String> getAllSubjects(){
+        Cursor c = db.rawQuery("SELECT DISTINCT subject FROM browse_courses", null);
+        return fetchBrowseCoursesSubjectRows(c);
     }
 }

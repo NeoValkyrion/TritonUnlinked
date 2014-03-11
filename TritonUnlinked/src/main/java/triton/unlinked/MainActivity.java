@@ -75,7 +75,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    prepAndCreateNewActivity(autoCompleteTextView.getText().toString());
+                    checkInputAndCreateNewActivity(autoCompleteTextView.getText().toString());
                     handled = true;
                 }
                 return handled;
@@ -177,9 +177,29 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
+    //helper method to verify that data is sanitized else go into browse activity
+    //TODO: Change this once the internal db is finished
+    private void checkInputAndCreateNewActivity(String str){
+        boolean found = false;
+        for(String a: subjectList){
+            if(a.equalsIgnoreCase(str)){
+                found = true;
+            }
+        }
+        if(found){
+            createNewActivity(str);
+            return;
+        }
+        else{
+            Intent i = new Intent(getApplicationContext(), BrowseActivity.class);
+            startActivity(i);
+        }
+
+    }
+
     //helper method to create activity and pass in string data to locations based on
     //spinner values.
-    private void prepAndCreateNewActivity(String str){
+    private void createNewActivity(String str){
         if(!str.isEmpty()){
             if(spinnerOption.equals("Courses")){
                 Intent i = new Intent(getApplicationContext(), CourseProfileActivity.class);

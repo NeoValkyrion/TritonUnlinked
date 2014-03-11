@@ -1,5 +1,6 @@
 package triton.unlinked;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,21 +40,28 @@ public class ProfessorProfileActivity extends Activity {
     private ProgressDialog pDialog;
 
     //Temporary, must be replaced by constructed query string given course information
-    private static String url = "http://tritonunlinked.herokuapp.com/courseinfo?dept=CSE&subject=CSE&num=101";
+    //private static String url = "http://tritonunlinked.herokuapp.com/professor?fname=Paul&lname=Kube";
 
 
-    private TextView courseNameView;
-    private TextView courseNumView;
-    private TextView courseSubView;
-    private TextView courseDescView;
+    private TextView professorNameView;
+    private TextView professorDescView;
 
     //JSON field tags for Courses
-    private static final String TAG_SUBJECT = "subject";
-    private static final String TAG_NUMBER = "num";
+    private static final String TAG_NAME = "name";
+    private static final String TAG_FIRSTNAME = "firstName";
+    private static final String TAG_LASTNAME = "lastName";
+    private static final String TAG_CODE = "code";
+    private static final String TAG_TITLE = "title";
 
-    //
-    private String subject;
-    private String number;
+    private String name;
+    private String firstName;
+    private String lastName;
+    private String code;
+    private String title;
+    //private JSONArray profName;
+    //Professor names
+    //private JSONObject[] profs;
+
 
     //Local Database stuff
     /*
@@ -64,30 +72,34 @@ public class ProfessorProfileActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_profile);
+        setContentView(R.layout.activity_professor_profile);
 
-        new GetCourse().execute();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
 
-        //Local Database stuff
-        /*
-        model_data = new CourseModel(this);
+            String value = extras.getString("SearchValue");
+            String[] dataSplit = value.split(" ");
+            firstName = dataSplit[0];
+            lastName = dataSplit[1];
+            Log.v("TAG", firstName);
+            Log.v("TAG", lastName);
+        }
 
-        // Access the database and retrieve course data
-        model_data.open();
-        pulled_data = model_data.getByID(1);
-        model_data.close();
-        */
+        //TODO: update with a GetProfessor().execute once the internal database has been flushed out
+        //new GetCourse().execute();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = (ViewPager) findViewById(R.id.prof_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
     }
 
+
+    //TODO: update with GetProfessor Async method
     /**
      * Async task class to get json by making HTTP call
      */
@@ -107,9 +119,10 @@ public class ProfessorProfileActivity extends Activity {
         protected Void doInBackground(Void... arg0) {
             //Create service handler class instance
             ServiceHandler sh = new ServiceHandler();
-
-            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
-
+            String jsonStr = null;
+            if(firstName != null && lastName != null){
+                jsonStr = sh.makeServiceCall(generateUrl(firstName,lastName), ServiceHandler.GET);
+            }
             Log.d("Response: ", "> " + jsonStr);
 
             if(jsonStr != null) {
@@ -117,8 +130,10 @@ public class ProfessorProfileActivity extends Activity {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     //Save values from JSON Object
-                    subject = jsonObj.getString(TAG_SUBJECT);
-                    number = jsonObj.getString(TAG_NUMBER);
+                    name = jsonObj.getString(TAG_NAME);
+                    firstName = jsonObj.getString(TAG_FIRSTNAME);
+                    lastName = jsonObj.getString(TAG_LASTNAME);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,10 +150,8 @@ public class ProfessorProfileActivity extends Activity {
             super.onPostExecute(result);
 
             //Update local fields with values from JSON
-            courseSubView = (TextView) findViewById(R.id.course_sub);
-            courseSubView.setText(subject);
-            courseNumView = (TextView) findViewById(R.id.course_num);
-            courseNumView.setText(number);
+            professorNameView = (TextView) findViewById(R.id.professor_header);
+            professorNameView.setText(name);
 
             // Dismiss the progress dialog
             if (pDialog.isShowing())
@@ -212,11 +225,13 @@ public class ProfessorProfileActivity extends Activity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_course_profile, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+            View rootView = inflater.inflate(R.layout.fragment_professor_profile, container, false);
             return rootView;
         }
+    }
+
+    private String generateUrl(String fname, String lname){
+        return "http://tritonunlinked.herokuapp.com/professor?fname="+ firstName +"&lname=" + lastName + "";
     }
 
 }
