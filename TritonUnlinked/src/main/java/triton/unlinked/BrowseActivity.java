@@ -31,6 +31,7 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
     private boolean isOnCourses = true;
     private BrowseCoursesFragment browseCoursesFrag;
     private BrowseProfessorsFragment browseProfFrag;
+    private BrowseRoomsFragment browseRoomsFrag;
 
     @Override
     public void onStart(){
@@ -56,6 +57,7 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
 
         actionBar.addTab(actionBar.newTab().setText("Courses").setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText("Professors").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Rooms").setTabListener(this));
     }
 
     @Override
@@ -98,6 +100,9 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
             browseProfFrag = new BrowseProfessorsFragment();
             getFragmentManager().beginTransaction().replace(R.id.activityBrowseContainer, browseProfFrag).commit();
             this.isOnCourses = false;
+        }
+        else{
+
         }
     }
 
