@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import java.util.ArrayList;
 
 public class BrowseActivity extends FragmentActivity implements ActionBar.TabListener{
@@ -30,11 +32,17 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
     private BrowseCoursesFragment browseCoursesFrag;
     private BrowseProfessorsFragment browseProfFrag;
 
-//    @Override
-//    public void onStart(){
-//        super.onStart();
-//        EasyTracker.getInstance(this).activityStart(this);
-//    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        // The rest of your onStop() code.
+        EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
