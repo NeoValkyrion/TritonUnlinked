@@ -4,10 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import java.util.ArrayList;
-
-import android.util.Log;
-
 /**
  * DAO for "BrowseProfessors" table.
  *
@@ -20,6 +16,7 @@ public class BrowseProfessorsModel extends SQLiteDAO {
 
     public static final String COL_FNAME     = "fname";
     public static final String COL_LNAME     = "lname";
+    public static final String COL_PID       = "prof_id";
     /**
      * Init SQLiteDAO with table "browse_professors"
      */
@@ -50,6 +47,7 @@ public class BrowseProfessorsModel extends SQLiteDAO {
         int ind_id   = cr.getColumnIndexOrThrow(COL_ID);
         int ind_fname  = cr.getColumnIndexOrThrow(COL_FNAME);
         int ind_lname = cr.getColumnIndexOrThrow(COL_LNAME);
+        int ind_pid = cr.getColumnIndexOrThrow(COL_PID);
         int ind_dm   = cr.getColumnIndexOrThrow(COL_MDATE);
         int ind_dc   = cr.getColumnIndexOrThrow(COL_CDATE);
 
@@ -59,6 +57,7 @@ public class BrowseProfessorsModel extends SQLiteDAO {
             fetchBaseData(cr, result[ii], ind_id, ind_dm, ind_dc);
             result[ii].fname    = cr.getString(ind_fname);
             result[ii].lname      = cr.getString(ind_lname);
+            result[ii].prof_id      = cr.getString(ind_pid);
 
             valid = cr.moveToNext();
             ii ++;
@@ -79,11 +78,12 @@ public class BrowseProfessorsModel extends SQLiteDAO {
     /**
      * Inserts a new entry into the browse_courses table, defaults record to 0
      */
-    public long insert(String fname, String lname)
+    public long insert(String fname, String lname, String prof_id)
     {
         ContentValues cv = new ContentValues();
         cv.put(COL_FNAME, fname);
         cv.put(COL_LNAME, lname);
+        cv.put(COL_PID, prof_id);
         return super.insert(cv);
     }
 

@@ -4,10 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import java.util.ArrayList;
-
-import android.util.Log;
-
 /**
  * DAO for "BrowseRooms" table.
  *
@@ -20,6 +16,8 @@ public class BrowseRoomsModel extends SQLiteDAO {
 
     public static final String COL_BLD      = "bld";
     public static final String COL_ROOM     = "room";
+    public static final String COL_RID     = "room_id";
+
     /**
      * Init SQLiteDAO with table "browse_professors"
      */
@@ -50,6 +48,7 @@ public class BrowseRoomsModel extends SQLiteDAO {
         int ind_id   = cr.getColumnIndexOrThrow(COL_ID);
         int ind_bld  = cr.getColumnIndexOrThrow(COL_BLD);
         int ind_room = cr.getColumnIndexOrThrow(COL_ROOM);
+        int ind_rid = cr.getColumnIndexOrThrow(COL_RID);
         int ind_dm   = cr.getColumnIndexOrThrow(COL_MDATE);
         int ind_dc   = cr.getColumnIndexOrThrow(COL_CDATE);
 
@@ -59,6 +58,7 @@ public class BrowseRoomsModel extends SQLiteDAO {
             fetchBaseData(cr, result[ii], ind_id, ind_dm, ind_dc);
             result[ii].bld    = cr.getString(ind_bld);
             result[ii].room      = cr.getString(ind_room);
+            result[ii].room_id      = cr.getString(ind_rid);
 
             valid = cr.moveToNext();
             ii ++;
@@ -79,11 +79,12 @@ public class BrowseRoomsModel extends SQLiteDAO {
     /**
      * Inserts a new entry into the browse_rooms table, defaults record to 0
      */
-    public long insert(String bld, String room)
+    public long insert(String bld, String room, String room_id)
     {
         ContentValues cv = new ContentValues();
         cv.put(COL_BLD, bld);
         cv.put(COL_ROOM, room);
+        cv.put(COL_RID, room_id);
         return super.insert(cv);
     }
 

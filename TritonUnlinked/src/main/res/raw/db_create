@@ -26,6 +26,7 @@ CREATE TABLE browse_professors
     _id             INTEGER PRIMARY KEY,
     lname           TEXT NOT NULL,
     fname           TEXT NOT NULL,
+    prof_id         TEXT NOT NULL,
     date_created    INTEGER,
     date_modified   INTEGER
 );
@@ -35,6 +36,7 @@ CREATE TABLE browse_rooms
     _id             INTEGER PRIMARY KEY,
     bld             TEXT NOT NULL,
     room            TEXT NOT NULL,
+    room_id         TEXT NOT NULL,
     date_created    INTEGER,
     date_modified   INTEGER
 );

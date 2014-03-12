@@ -11,6 +11,7 @@ import android.content.ContentValues;
 public class BrowseRoomsRow extends SQLiteRow {
     public String bld;
     public String room;
+    public String room_id;
 
     public BrowseRoomsRow() {}
 
@@ -18,6 +19,7 @@ public class BrowseRoomsRow extends SQLiteRow {
         super(vals);
         bld = vals.getAsString(BrowseRoomsModel.COL_BLD);
         room = vals.getAsString(BrowseRoomsModel.COL_ROOM);
+        room_id = vals.getAsString(BrowseRoomsModel.COL_RID);
     }
 
     @Override
@@ -25,6 +27,7 @@ public class BrowseRoomsRow extends SQLiteRow {
         ContentValues vals = super.toContentValues();
         vals.put(BrowseRoomsModel.COL_BLD, bld);
         vals.put(BrowseRoomsModel.COL_ROOM, room);
+        vals.put(BrowseRoomsModel.COL_RID, room_id);
         return vals;
     }
 }

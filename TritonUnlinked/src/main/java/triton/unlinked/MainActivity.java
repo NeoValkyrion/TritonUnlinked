@@ -30,8 +30,15 @@ import java.util.ArrayList;
 public class MainActivity extends Activity implements OnItemSelectedListener {
 
     private String[] options = {"Courses", "Professors","Rooms"};
+
+    //Database data objects
     private BrowseCoursesModel course_model_data;
     private BrowseCoursesRow[] course_row_data;
+    private BrowseProfessorsModel prof_model_data;
+    private BrowseProfessorsRow[] prof_row_data;
+    private BrowseRoomsModel room_model_data;
+    private BrowseRoomsRow[] room_row_data;
+
     ArrayList<String> subjectList;
 
     private String spinnerOption = "Courses";
@@ -84,6 +91,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
         subjectList = new ArrayList<String>();
         course_model_data = new BrowseCoursesModel(this);
+        prof_model_data = new BrowseProfessorsModel(this);
+        room_model_data = new BrowseRoomsModel(this);
 
         // Access the database and retrieve list of subjects
         course_model_data.open();
