@@ -145,15 +145,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         startActivity(intent);
     }
 
-
-    /**
-     * Called when the user clicks the Professor Page button
-     */
-    public void ProfessorPage(View view) {
-        Intent intent = new Intent(this, ProfessorProfileActivity.class);
-        startActivity(intent);
-    }
-
     /**
      * Called when the user clicks the Room Page button
      */
