@@ -2830,3 +2830,10 @@ INSERT INTO 'browse_professors' ('lname', 'fname')
     UNION SELECT 'Shakur' AS 'lname', 'Tupac' AS 'fname'
     UNION SELECT 'Kao' AS 'lname', 'Jeremy' AS 'fname'
 --###--
+INSERT INTO 'browse_rooms' ('bld', 'room')
+
+    SELECT 'EBU3B' AS 'bld', '230' AS 'room'
+    UNION SELECT 'EBU3B' AS 'bld', '240' AS 'room'
+    UNION SELECT 'EBU3B' AS 'bld', '250' AS 'room'
+    UNION SELECT 'EBU3B' AS 'bld', '260' AS 'room'
+--###--

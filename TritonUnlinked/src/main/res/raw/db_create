@@ -30,3 +30,12 @@ CREATE TABLE browse_professors
     date_modified   INTEGER
 );
 --###--
+CREATE TABLE browse_rooms
+(
+    _id             INTEGER PRIMARY KEY,
+    bld             TEXT NOT NULL,
+    room            TEXT NOT NULL,
+    date_created    INTEGER,
+    date_modified   INTEGER
+);
+--###--
