@@ -197,18 +197,20 @@ public  class ProfessorProfileActivity extends Activity{
 
             for(int j = 0; j < code.length; j++){
                 codeView = (TextView) findViewById(R.id.prof_code_section);
-                codeView.setText(code[j]);
+                codeView.append("Code: " + code[j]);
+                codeView.append("\n");
             }
             for(int i = 0; i < title.length; i++){
                 titleView = (TextView) findViewById(R.id.prof_title_section);
-                titleView.setText(title[i]);
+                titleView.append("Title: "+title[i]);
+                titleView.append("\n");
             }
 
             for (int k = 0; k < section.length; k++){
                 sectionView = (TextView) findViewById(R.id.prof_section_section);
-                sectionView.setText(section[k]);
+                sectionView.append("Section: "+section[k]);
+                sectionView.append("\n" );
             }
-
 
 
 
