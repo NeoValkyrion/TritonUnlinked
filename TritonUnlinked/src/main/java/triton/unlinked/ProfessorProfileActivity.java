@@ -143,7 +143,7 @@ public  class ProfessorProfileActivity extends Activity{
             //Create service handler class instance
             ServiceHandler sh = new ServiceHandler();
             String jsonStr = null;
-            jsonStr = sh.makeServiceCall(generateUrl("Paul","Kube"), ServiceHandler.GET);
+            jsonStr = sh.makeServiceCall(generateUrl(firstName, lastName), ServiceHandler.GET);
             Log.d("Response: ", "> " + jsonStr);
 
             if(jsonStr != null) {

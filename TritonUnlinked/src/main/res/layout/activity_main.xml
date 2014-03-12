@@ -52,22 +52,12 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:onClick="CoursePage"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/professor_page_button"
-        android:id="@+id/professorPageButton"
-        android:layout_toRightOf="@id/coursePageButton"
-        android:layout_alignParentBottom="true"
-        android:onClick="ProfessorPage"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/room_page_button"
         android:id="@+id/roomPageButton"
-        android:layout_toRightOf="@id/professorPageButton"
+        android:layout_toRightOf="@id/coursePageButton"
         android:layout_alignParentBottom="true"
         android:onClick="RoomPage"/>
 </RelativeLayout>

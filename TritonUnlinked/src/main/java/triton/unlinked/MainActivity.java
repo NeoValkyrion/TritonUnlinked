@@ -30,9 +30,19 @@ import java.util.ArrayList;
 public class MainActivity extends Activity implements OnItemSelectedListener {
 
     private String[] options = {"Courses", "Professors","Rooms"};
+
+    //Database data objects
     private BrowseCoursesModel course_model_data;
     private BrowseCoursesRow[] course_row_data;
-    ArrayList<String> subjectList;
+    private BrowseProfessorsModel prof_model_data;
+    private BrowseProfessorsRow[] prof_row_data;
+    private BrowseRoomsModel room_model_data;
+    private BrowseRoomsRow[] room_row_data;
+
+    ArrayList<String> autoCorrectItemList;
+    ArrayList<String> courseList;
+    ArrayList<String> profList;
+    ArrayList<String> roomList;
 
     private String spinnerOption = "Courses";
 
@@ -68,6 +78,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             }
         });
 
+        //initialize the autocomplete section of the code
         final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.searchBox);
 
         autoCompleteTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -82,26 +93,11 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             }
         });
 
-        subjectList = new ArrayList<String>();
-        course_model_data = new BrowseCoursesModel(this);
+        //create and populate the lists of autocomplete items
+        initializeAutoCompleteArrays();
+        autoCorrectItemList = courseList;
 
-        // Access the database and retrieve list of subjects
-        course_model_data.open();
-        course_row_data = course_model_data.getAllCoursesRows();
-        course_model_data.close();
-
-        subjectList = new ArrayList<String>();
-
-        for (int i = 0; i < course_row_data.length; i++) {
-            subjectList.add(course_row_data[i].course);
-        }
-
-        for (String s : subjectList)
-        {
-            Log.d("Subject: ", s);
-        }
-
-        ArrayAdapter<String> acAdapter = new ArrayAdapter<String>(this, R.layout.autocomplete_list_item, subjectList);
+        ArrayAdapter<String> acAdapter = new ArrayAdapter<String>(this, R.layout.autocomplete_list_item, autoCorrectItemList);
         autoCompleteTextView.setAdapter(acAdapter);
     }
 
@@ -149,15 +145,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         startActivity(intent);
     }
 
-
-    /**
-     * Called when the user clicks the Professor Page button
-     */
-    public void ProfessorPage(View view) {
-        Intent intent = new Intent(this, ProfessorProfileActivity.class);
-        startActivity(intent);
-    }
-
     /**
      * Called when the user clicks the Room Page button
      */
@@ -166,11 +153,12 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         startActivity(intent);
     }
 
-    //Get value from spinner
+    //Get value from spinner as well as setting autocomplete adapter
     @Override
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         spinnerOption = parent.getItemAtPosition(pos).toString();
+        setAutoCompleteAdapter(spinnerOption);
     }
 
     @Override
@@ -178,10 +166,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
     }
 
     //helper method to verify that data is sanitized else go into browse activity
-    //TODO: Change this once the internal db is finished
     private void checkInputAndCreateNewActivity(String str){
         boolean found = false;
-        for(String a: subjectList){
+        for(String a: autoCorrectItemList){
             if(a.equalsIgnoreCase(str)){
                 found = true;
             }
@@ -194,7 +181,16 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             Intent i = new Intent(getApplicationContext(), BrowseActivity.class);
             startActivity(i);
         }
+    }
 
+    //set the adapter to different autocorrects based off of spinner option
+    private void setAutoCompleteAdapter(String str){
+        if(str.equals("Courses")){ autoCorrectItemList = courseList; }
+        if(str.equals("Professors")){ autoCorrectItemList = profList; }
+        if(str.equals("Rooms")){ autoCorrectItemList = roomList; }
+        final AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.searchBox);
+        ArrayAdapter<String> acAdapter = new ArrayAdapter<String>(this, R.layout.autocomplete_list_item, autoCorrectItemList);
+        autoCompleteTextView.setAdapter(acAdapter);
     }
 
     //helper method to create activity and pass in string data to locations based on
@@ -216,5 +212,58 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
             }
     }
 
+    //helper method to fill up autocomplete array lists
+    private void initializeAutoCompleteArrays(){
+        course_model_data = new BrowseCoursesModel(this);
+        prof_model_data = new BrowseProfessorsModel(this);
+        room_model_data = new BrowseRoomsModel(this);
+
+        // Access the database and retrieve list of courses
+        course_model_data.open();
+        course_row_data = course_model_data.getAllCoursesRows();
+        course_model_data.close();
+        courseList = new ArrayList<String>();
+
+        for (int i = 0; i < course_row_data.length; i++) {
+            courseList.add(course_row_data[i].subject + " " + course_row_data[i].number);
+        }
+
+        for (String s : courseList)
+        {
+            Log.d("Course: ", s);
+        }
+
+        // Access the database and retrieve list of professors
+        prof_model_data.open();
+        prof_row_data = prof_model_data.getAllProfessorsRows();
+        prof_model_data.close();
+
+        profList = new ArrayList<String>();
+
+        for (int i = 0; i < prof_row_data.length; i++) {
+            profList.add(prof_row_data[i].fname + " " + prof_row_data[i].lname);
+        }
+
+        for (String p : profList)
+        {
+            Log.d("Professor: ", p);
+        }
+
+        // Access the database and retrieve list of rooms
+        room_model_data.open();
+        room_row_data = room_model_data.getAllRoomsRows();
+        room_model_data.close();
+
+        roomList = new ArrayList<String>();
+
+        for (int i = 0; i < room_row_data.length; i++) {
+            roomList.add(room_row_data[i].bld + " " + room_row_data[i].room);
+        }
+
+        for (String r : roomList)
+        {
+            Log.d("Room: ", r);
+        }
+    }
 }
 
