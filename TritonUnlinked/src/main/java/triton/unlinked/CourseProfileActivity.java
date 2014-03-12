@@ -44,7 +44,7 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
     private JSONObject courseJson;
 
     //Variables pertaining to a particular course
-    private String subject;
+    private String classes;
     private String number;
     private String title;
     private String desc;

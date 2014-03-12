@@ -3,11 +3,16 @@ package triton.unlinked;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import android.app.ProgressDialog;
+import android.util.Log;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.support.v4.app.FragmentActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -20,8 +25,8 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-public class ProfessorProfileActivity extends Activity {
-
+//public class ProfessorProfileActivity extends FragmentActivity implements ProfessorProfileActivity.TaskCallBacks {
+public  class ProfessorProfileActivity extends Activity{
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -44,6 +49,10 @@ public class ProfessorProfileActivity extends Activity {
 
 
     private TextView professorNameView;
+    private TextView codeView;
+    private TextView titleView;
+    private TextView classNameView;
+    private TextView sectionView;
     private TextView professorDescView;
 
     //JSON field tags for Courses
@@ -52,15 +61,22 @@ public class ProfessorProfileActivity extends Activity {
     private static final String TAG_LASTNAME = "lastName";
     private static final String TAG_CODE = "code";
     private static final String TAG_TITLE = "title";
+    private static final String TAG_SECTION = "section";
+    private static final String TAG_CLASSES = "classes";
 
+
+    //Variables used for
     private String name;
     private String firstName;
     private String lastName;
-    private String code;
-    private String title;
-    //private JSONArray profName;
+    private String[] code;
+    private String[] title;
+    private String[] section;
+
     //Professor names
-    //private JSONObject[] profs;
+   // private JSONObject[] classes;
+    private JSONArray classesJson;
+    private JSONObject[] sectionsJson;
 
 
     //Local Database stuff
@@ -81,12 +97,19 @@ public class ProfessorProfileActivity extends Activity {
             String[] dataSplit = value.split(" ");
             firstName = dataSplit[0];
             lastName = dataSplit[1];
+            //code = dataSplit[2];
+            //title = dataSplit[3];
+            //section = dataSplit[4];
             Log.v("TAG", firstName);
             Log.v("TAG", lastName);
+           // Log.v("TAG",code);
+            //Log.v("TAG",title);
+           // Log.v("TAG",section);
+
         }
 
         //TODO: update with a GetProfessor().execute once the internal database has been flushed out
-        //new GetCourse().execute();
+        new GetProfessor().execute();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -103,7 +126,7 @@ public class ProfessorProfileActivity extends Activity {
     /**
      * Async task class to get json by making HTTP call
      */
-    private class GetCourse extends AsyncTask<Void, Void, Void> {
+    private class GetProfessor extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -120,9 +143,7 @@ public class ProfessorProfileActivity extends Activity {
             //Create service handler class instance
             ServiceHandler sh = new ServiceHandler();
             String jsonStr = null;
-            if(firstName != null && lastName != null){
-                jsonStr = sh.makeServiceCall(generateUrl(firstName,lastName), ServiceHandler.GET);
-            }
+            jsonStr = sh.makeServiceCall(generateUrl("Paul","Kube"), ServiceHandler.GET);
             Log.d("Response: ", "> " + jsonStr);
 
             if(jsonStr != null) {
@@ -134,8 +155,29 @@ public class ProfessorProfileActivity extends Activity {
                     firstName = jsonObj.getString(TAG_FIRSTNAME);
                     lastName = jsonObj.getString(TAG_LASTNAME);
 
+                    Log.d("Response:", name);
+                    Log.d("Response:", firstName);
+                   // Log.d("Response:", title);
+                   // Log.d("Response:", code);
+                    //section = jsonObj.getString(TAG_SECTION);
+                    classesJson = jsonObj.getJSONArray(TAG_CLASSES);
+                    sectionsJson = new JSONObject[classesJson.length()];
+
+                    code = new String[classesJson.length()];
+                    title = new String[classesJson.length()];
+                    section = new String[classesJson.length()];
+
+                    for(int i=0; i < classesJson.length(); i++){
+                        JSONObject classes = classesJson.getJSONObject(i);
+
+                        code[i] = classes.getString(TAG_CODE);
+                        title[i] = classes.getString(TAG_TITLE);
+                        section[i] = classes.getString(TAG_SECTION);
+                        Log.d("Section:",classesJson.getString(i));
+                    }
 
                 } catch (JSONException e) {
+                    Log.d("Error:", "jsonObj returned exception");
                     e.printStackTrace();
                 }
             } else {
@@ -152,6 +194,25 @@ public class ProfessorProfileActivity extends Activity {
             //Update local fields with values from JSON
             professorNameView = (TextView) findViewById(R.id.professor_header);
             professorNameView.setText(name);
+
+            for(int j = 0; j < code.length; j++){
+                codeView = (TextView) findViewById(R.id.prof_code_section);
+                codeView.append("Code: " + code[j]);
+                codeView.append("\n");
+            }
+            for(int i = 0; i < title.length; i++){
+                titleView = (TextView) findViewById(R.id.prof_title_section);
+                titleView.append("Title: "+title[i]);
+                titleView.append("\n");
+            }
+
+            for (int k = 0; k < section.length; k++){
+                sectionView = (TextView) findViewById(R.id.prof_section_section);
+                sectionView.append("Section: "+section[k]);
+                sectionView.append("\n" );
+            }
+
+
 
             // Dismiss the progress dialog
             if (pDialog.isShowing())
@@ -230,8 +291,8 @@ public class ProfessorProfileActivity extends Activity {
         }
     }
 
-    private String generateUrl(String fname, String lname){
-        return "http://tritonunlinked.herokuapp.com/professor?fname="+ firstName +"&lname=" + lastName + "";
+   private String generateUrl(String fname, String lname){
+       return "http://tritonunlinked.herokuapp.com/professor?fname="+ fname +"&lname=" + lname;
     }
 
 }

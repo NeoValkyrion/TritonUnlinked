@@ -27,10 +27,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.RelativeLayout;
+import android.util.TypedValue;
 
-public class RoomActivity extends Activity {
+public class RoomActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -46,9 +51,11 @@ public class RoomActivity extends Activity {
      * The {@link ViewPager} that will host the section contents.
      */
     //ViewPager mViewPager;
+    RoomScheduleAdapter timeListAdapter;
     ListView timeListView;
-    String[] times = {"8:00a", "9:00a", "10:00a", "11:00a", "12:00p", "1:00p", "2:00p", "3:00p", "4:00p", "5:00p", "6:00p", "7:00p", "8:00p", "9:00p"};
-
+    private String[] times = {"8:00a", "9:00a", "10:00a", "11:00a", "12:00p", "1:00p", "2:00p", "3:00p", "4:00p", "5:00p", "6:00p", "7:00p", "8:00p", "9:00p"};
+    private String[] days = {"Monday", "Tuesday","Wednesday", "Thursday", "Friday"}; //options for spinner
+    private String spinnerOption = "Monday";
 
     private ProgressDialog pDialog;
 
@@ -62,7 +69,7 @@ public class RoomActivity extends Activity {
      */
 
     //Temporary, must be replaced by constructed query string given course information
-    private static String url = "http://tritonunlinked.herokuapp.com/room?bld=CENTR&room=115";
+    private static String url = "http://tritonunlinked.herokuapp.com/room?bld=CENTR&room=109";
 
     private TextView bldView;
     private TextView roomView;
@@ -76,33 +83,44 @@ public class RoomActivity extends Activity {
     //JSON field tags for the classes array
     private static final String TAG_CLASS = "class";
     private static final String TAG_DAY = "day";
+    private static final String TAG_START = "startTime";
+    private static final String TAG_END = "endTime";
     private static final String TAG_TIME = "time";
 
     private String building;
     private String room;
     private JSONArray classesArr;
-    private JSONObject[] classes;
-    private String course;
-    private String start;
-    private String end;
+    private String[] course;
+    private String[] day;
+    private String[] start;
+    private String[] end;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
+        Spinner spinner = (Spinner) findViewById(R.id.dayPicker);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,days);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(this);
+
         new GetRoom().execute();
 
-        //grab the data passed in from the search bar -- NEED TO CHANGE TO PROPER NAMES
-        /*Bundle extras = getIntent().getExtras();
+        //TODO: grab the data passed in from the search bar and update the URL
+        Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String value = extras.getString("new_variable_name");
-        }*/
+            String value = extras.getString("SearchValue");
+            Log.d("RoomActivity", "SearchValue: " + value);
+        }
 
-        RoomScheduleAdapter adapter = new RoomScheduleAdapter(this, times);
+        //RoomScheduleAdapter adapter = new RoomScheduleAdapter(this, times);
+        timeListAdapter = new RoomScheduleAdapter(this, times);
+        //timeListAdapter.setListView(timeListView);
 
         timeListView = (ListView) findViewById(R.id.schedule);
-        timeListView.setAdapter(adapter);
+        timeListView.setAdapter(timeListAdapter);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -166,16 +184,33 @@ public class RoomActivity extends Activity {
                     building = jsonObj.getString(TAG_BLD);
                     room = jsonObj.getString(TAG_ROOM);
                     classesArr = jsonObj.getJSONArray(TAG_CLASSES);
-                    classes = new JSONObject[classesArr.length()];
 
-                    for(int i=0; i<classesArr.length(); i++) {
-                        Log.d("RoomActivity: ", "" + classesArr.getJSONObject(i));
-                        classes[i] = classesArr.getJSONObject(i);
+                    //FOR TESTING PURPOSES: adding fake data to the classesArr
+                    //classesArr.put( new JSONObject("{\"class\":\"80 min class case 1\",\"day\":\"TuTh\",\"time\":\"11:00a - 12:20p\"}") );
+                    //classesArr.put( new JSONObject("{\"class\":\"80 min class case 2\",\"day\":\"TuTh\",\"time\":\"12:30p - 1:50p\"}") );
+                    //classesArr.put( new JSONObject("{\"class\":\"3 hr class\",\"day\":\"TuTh\",\"time\":\"5:00p - 7:50p\"}") );
 
-                        course = classes[i].getString(TAG_CLASS);
-                        String[] startEnd = classes[i].getString(TAG_TIME).split("-");
-                        start = startEnd[0];
-                        end = startEnd[1];
+                    timeListAdapter.setClassesArr(classesArr);
+                    course = new String[classesArr.length()];
+                    day = new String[classesArr.length()];
+                    start = new String[classesArr.length()];
+                    end = new String[classesArr.length()];
+
+
+                    for(int i = 0; i < classesArr.length(); i++) {
+
+                        JSONObject currClass = classesArr.getJSONObject(i);
+                        Log.d("RoomActivity: ", "currClass: " + currClass);
+
+                        String[] startEnd = currClass.getString(TAG_TIME).split(" - ");
+
+                        course[i] = currClass.getString(TAG_CLASS);
+                        day[i] = currClass.getString(TAG_DAY);
+                        start[i] = startEnd[0];
+                        end[i] = startEnd[1];
+                        //start[i] = currClass.getString(TAG_START);
+                        //end[i] = currClass.getString(TAG_END);
+                        Log.d("RoomActivity", "class: " + course[i] + ", day: " + day[i] + ", start: " + start[i] + ", end: " + end[i]);
                     }
 
                 } catch (JSONException e) {
@@ -198,16 +233,141 @@ public class RoomActivity extends Activity {
             roomView = (TextView) findViewById(R.id.room_number);
             roomView.setText(room);
 
-            //TODO: need to access the data for each listview item (via the adapter?)
-            courseNameView = (TextView) findViewById(R.id.course_name);
-            courseNameView.setText(course);
+            /*for(int i = 0; i<course.length; i++) {
+                Log.d("RoomActivity", "at the for loop iteration " + i + ". which class is this: " + course[i] + ", start: " + start[i] + ", end: " + end[i]);
+
+                for(int j = 0; j<times.length; j++) {
+                    View v = timeListView.getChildAt(j - timeListView.getFirstVisiblePosition());
+
+                    int startHr = Integer.parseInt( start[i].split(":")[0] );
+                    int startMin = Integer.parseInt( start[i].split(":")[1].substring(0,2) ); //use substring to get rid of the 'a'/'p'
+                    int endHr = Integer.parseInt( end[i].split(":")[0] );
+                    int endMin = Integer.parseInt( end[i].split(":")[1].substring(0,2) ); //use substring to get rid of the 'a'/'p'
+
+                    if( start[i].equals(times[j]) ) {
+                    //if( ( startHr == Integer.parseInt( times[j].split(":")[0] ) ) && ( start[i].charAt(start[i].length()-1) == times[j].charAt(times[j].length() - 1) ) ) {
+                        courseNameView = (TextView) v.findViewById(R.id.course_name);
+                        //courseNameView.setText(course[i]);
+                        startEndView = (TextView) v.findViewById(R.id.start_end);
+                        //startEndView.setText(start[i] + " - " + end[i]);
+
+                        //logic to set the schedule blocks (SUPER MESSY)
+                        View scheduleBlock1 = v.findViewById(R.id.schedule_block1);
+                        View scheduleBlock2 = v.findViewById(R.id.schedule_block2);
+                        //int classLength = 0; //length of the class in minutes
+
+                        if( startHr == endHr ) { //50 minute class (ex: starts at 8:00, ends at 8:50)
+                            //classLength = 50;
+                            int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, endMin, v.getContext().getResources().getDisplayMetrics());
+                            RelativeLayout.LayoutParams schedBlock1Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
+                            scheduleBlock1.setLayoutParams(schedBlock1Param);
+
+                            courseNameView.setText(course[i]);
+                            startEndView.setText(start[i] + " - " + end[i]);
+                        }
+                        else { //all the other cases
+                             // cases to handle:
+                             // 80 minute classes: (will take up 2 list view items)
+                             //  - case 1: starts on the hour, ends at x:20 (ex: 8:00-9:20) -- in this case, the text should be set in the FIRST item
+                             //  - case 2: starts on the half hour, ends at x:50 (ex: 9:30-10:50) -- in this case, the text should be set in the SECOND item
+                             // 3 hour classes e.g., 5:00-7:40 (will take up 3 list view items)
+
+                            Log.d("RoomActivity", "not a 50 min class. class: " + course[i] + ", start: " + start[i] + ", end: " + end[i]);
+
+                            if( ((startHr + 1) % 12) == (endHr % 12) ) { // 80 minute class
+                                //classLength = 80;
+                                Log.d("RoomActivity", "setting blocks for 80 min class: " + course[i] + ", start: " + start[i] + ", end: " + end[i]);
+
+                                View nextListItem = timeListView.getChildAt(j+1 - timeListView.getFirstVisiblePosition());
+
+                                //case 1: starts on the hour, ends at x:20 (ex: 8:00-9:20) -- in this case, the text should be set in the FIRST item
+                                if( startMin == 0 ) {
+                                    int height1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, v.getContext().getResources().getDisplayMetrics());
+                                    RelativeLayout.LayoutParams schedBlock1Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height1);
+                                    scheduleBlock1.setLayoutParams(schedBlock1Param);
+
+                                    View nextSchedBlock = nextListItem.findViewById(R.id.schedule_block1);
+                                    int height2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, endMin, nextListItem.getContext().getResources().getDisplayMetrics());
+                                    RelativeLayout.LayoutParams schedBlock2Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height2);
+                                    nextSchedBlock.setLayoutParams(schedBlock2Param);
+
+                                    courseNameView.setText(course[i]);
+                                    startEndView.setText(start[i] + " - " + end[i]);
+                                }
+
+                                //case 2: starts on the half hour, ends at x:50 (ex: 9:30-10:50) -- in this case, the text should be set in the SECOND item
+                                else if( startMin == 30 ) {
+                                    int height1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, v.getContext().getResources().getDisplayMetrics());
+                                    RelativeLayout.LayoutParams schedBlock1Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height1);
+                                    schedBlock1Param.setMargins(0, height1, 0, 0);
+                                    scheduleBlock2.setLayoutParams(schedBlock1Param);
+
+                                    View nextSchedBlock = nextListItem.findViewById(R.id.schedule_block1);
+                                    int height2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, endMin, nextListItem.getContext().getResources().getDisplayMetrics());
+                                    RelativeLayout.LayoutParams schedBlock2Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height2);
+                                    nextSchedBlock.setLayoutParams(schedBlock2Param);
+
+                                    //set the text in the SECOND item
+                                    courseNameView = (TextView) nextListItem.findViewById(R.id.course_name);
+                                    startEndView = (TextView) nextListItem.findViewById(R.id.start_end);
+
+                                    courseNameView.setText(course[i]);
+                                    startEndView.setText(start[i] + " - " + end[i]);
+                                }
+                            }
+                            else if( ((startHr + 2) % 12) == (endHr % 12) ) { // 3 hour class
+                                View hour1ListItem = v;
+                                View hour2ListItem = timeListView.getChildAt(j+1 - timeListView.getFirstVisiblePosition());
+                                View hour3ListItem = timeListView.getChildAt(j+2 - timeListView.getFirstVisiblePosition());
+
+                                View hour1SchedBlock = scheduleBlock1;
+                                View hour2SchedBlock = hour2ListItem.findViewById(R.id.schedule_block1);
+                                View hour3SchedBlock = hour3ListItem.findViewById(R.id.schedule_block1);
+
+                                int height1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, hour1ListItem.getContext().getResources().getDisplayMetrics());
+                                RelativeLayout.LayoutParams schedBlock1Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height1);
+                                hour1SchedBlock.setLayoutParams(schedBlock1Param);
+
+                                int height2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, hour2ListItem.getContext().getResources().getDisplayMetrics());
+                                RelativeLayout.LayoutParams schedBlock2Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height2);
+                                hour2SchedBlock.setLayoutParams(schedBlock2Param);
+
+                                int height3 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, endMin, hour3ListItem.getContext().getResources().getDisplayMetrics());
+                                RelativeLayout.LayoutParams schedBlock3Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height3);
+                                hour3SchedBlock.setLayoutParams(schedBlock3Param);
+
+                                //set the text in the SECOND item
+                                courseNameView = (TextView) hour2ListItem.findViewById(R.id.course_name);
+                                startEndView = (TextView) hour2ListItem.findViewById(R.id.start_end);
+
+                                courseNameView.setText(course[i]);
+                                startEndView.setText(start[i] + " - " + end[i]);
+                            }
+                        }
+                    }
+                }
+            }*/
+
+           /* courseNameView = (TextView) findViewById(R.id.course_name);
+            courseNameView.setText(course[0]);
             startEndView = (TextView) findViewById(R.id.start_end);
-            startEndView.setText(start + "-" + end);
+            startEndView.setText(start[0] + "-" + end[0]);*/
 
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
         }
+    }
+
+    //Get value from spinner
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        spinnerOption = parent.getItemAtPosition(pos).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
     /**
