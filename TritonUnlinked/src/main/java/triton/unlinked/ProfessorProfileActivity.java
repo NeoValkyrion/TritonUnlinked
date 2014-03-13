@@ -7,9 +7,10 @@ import org.w3c.dom.Text;
 
 import android.app.ProgressDialog;
 import android.util.Log;
-
+import android.widget.ListView;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 
 import java.util.Locale;
 
@@ -36,11 +38,14 @@ public  class ProfessorProfileActivity extends Activity{
      * {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
+    //SectionsPagerAdapter profAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+   // ListView profView;
+    //
 
     private ProgressDialog pDialog;
 
@@ -89,7 +94,7 @@ public  class ProfessorProfileActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_profile);
-
+        //mViewPager.setOffscreenPageLimit(1);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
 
@@ -114,10 +119,13 @@ public  class ProfessorProfileActivity extends Activity{
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-
+       // profAdapter = new SectionsPagerAdapter(this));
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.prof_pager);
+       // profView = (ListView) findViewById(R.id.prof_pager);
+       // profView.setAdapter(profAdapter);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
 
     }
 
@@ -163,15 +171,15 @@ public  class ProfessorProfileActivity extends Activity{
                     classesJson = jsonObj.getJSONArray(TAG_CLASSES);
                     sectionsJson = new JSONObject[classesJson.length()];
 
-                    code = new String[classesJson.length()];
                     title = new String[classesJson.length()];
+                    code = new String[classesJson.length()];
                     section = new String[classesJson.length()];
 
                     for(int i=0; i < classesJson.length(); i++){
                         JSONObject classes = classesJson.getJSONObject(i);
 
-                        code[i] = classes.getString(TAG_CODE);
                         title[i] = classes.getString(TAG_TITLE);
+                        code[i] = classes.getString(TAG_CODE);
                         section[i] = classes.getString(TAG_SECTION);
                         Log.d("Section:",classesJson.getString(i));
                     }
@@ -195,15 +203,18 @@ public  class ProfessorProfileActivity extends Activity{
             professorNameView = (TextView) findViewById(R.id.professor_header);
             professorNameView.setText(name);
 
-            for(int j = 0; j < code.length; j++){
-                codeView = (TextView) findViewById(R.id.prof_code_section);
-                codeView.append("Code: " + code[j]);
-                codeView.append("\n");
-            }
+
             for(int i = 0; i < title.length; i++){
                 titleView = (TextView) findViewById(R.id.prof_title_section);
                 titleView.append("Title: "+title[i]);
                 titleView.append("\n");
+            }
+
+            for(int j = 0; j < code.length; j++){
+                codeView = (TextView) findViewById(R.id.prof_code_section);
+                codeView.append("Code: " + code[j]);
+                codeView.append("\n");
+
             }
 
             for (int k = 0; k < section.length; k++){
@@ -239,8 +250,8 @@ public  class ProfessorProfileActivity extends Activity{
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 0 total pages.
+            return 1;
         }
 
         @Override
