@@ -20,8 +20,8 @@ public class BrowseRoomsFragment extends ListFragment {
 
     Activity browseActivity;
     private ArrayList<String> rooms = new ArrayList<String>();
-    //private BrowseProfessorsRow[] professor_model_row;
-    //private BrowseProfessorsModel professor_model_data;
+    private BrowseRoomsRow[] rooms_model_row;
+    private BrowseRoomsModel rooms_model_data;
     private ArrayAdapter browseAdapter;
 
     public BrowseRoomsFragment(){
@@ -32,22 +32,19 @@ public class BrowseRoomsFragment extends ListFragment {
         super.onAttach(activity);
         browseActivity = activity;
 
-        /*professors.clear();
-        professor_model_data = new BrowseProfessorsModel(this.browseActivity);
-        // Access the database and retrieve list of subjects
-        professor_model_data.open();
-        professor_model_row = professor_model_data.getAllProfessorsRows();
-        professor_model_data.close();
+        rooms.clear();
+        rooms_model_data = new BrowseRoomsModel(this.browseActivity);
 
-        for (int i = 0; i < professor_model_row.length; ++i){
-            professors.add(professor_model_row[i].fname + " " + professor_model_row[i].lname);
+        rooms_model_data.open();
+        rooms_model_row = rooms_model_data.getAllRoomsRows();
+        rooms_model_data.close();
+
+        for (int i = 0; i < rooms_model_row.length; ++i){
+            rooms.add(rooms_model_row[i].bld + " " + rooms_model_row[i].room);
         }
 
-        browseAdapter = new ArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1, professors);
+        browseAdapter = new ArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1, rooms);
         this.setListAdapter(browseAdapter);
-        *//*for (int i = 0; i < course_row_data.length; i++) {
-            subjectList.add(course_row_data[i].subject);
-        }*/
 
     }
     @Override
@@ -63,9 +60,9 @@ public class BrowseRoomsFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView list, View v, int position, long id) {
-//        Intent i = new Intent(getActivity(), ProfessorProfileActivity.class);
-//        i.putExtra("name", professors.get(position));
-//        startActivity(i);
+        Intent i = new Intent(getActivity(), RoomActivity.class);
+        i.putExtra("SearchValue", rooms.get(position));
+        startActivity(i);
     }
     public void onBackPressed(){
         Intent intent = new Intent(getActivity(), MainActivity.class);

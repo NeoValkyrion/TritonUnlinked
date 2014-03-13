@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class BrowseActivity extends FragmentActivity implements ActionBar.TabListener{
 
     private static final String CURRENT_NAV_ITEM = "current_selected_nav_item";
-    private boolean isOnCourses = true;
+    private short whichPage = 1;
     private BrowseCoursesFragment browseCoursesFrag;
     private BrowseProfessorsFragment browseProfFrag;
     private BrowseRoomsFragment browseRoomsFrag;
@@ -95,14 +95,17 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
         if (tab.getPosition() == 0) {
             browseCoursesFrag = new BrowseCoursesFragment();
             getFragmentManager().beginTransaction().replace(R.id.activityBrowseContainer, browseCoursesFrag).commit();
+            this.whichPage = 1;
         }
         else if (tab.getPosition() == 1) {
             browseProfFrag = new BrowseProfessorsFragment();
             getFragmentManager().beginTransaction().replace(R.id.activityBrowseContainer, browseProfFrag).commit();
-            this.isOnCourses = false;
+            this.whichPage = 2;
         }
         else{
-
+            browseRoomsFrag = new BrowseRoomsFragment();
+            getFragmentManager().beginTransaction().replace(R.id.activityBrowseContainer, browseRoomsFrag).commit();
+            this.whichPage = 3;
         }
     }
 
@@ -117,11 +120,14 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
     }
     @Override
     public void onBackPressed(){
-        if(isOnCourses){
+        if(this.whichPage == 1){
             browseCoursesFrag.onBackPressed();
         }
-        else{
+        else if (this.whichPage == 2){
             browseProfFrag.onBackPressed();
+        }
+        else if(this.whichPage == 3){
+            browseRoomsFrag.onBackPressed();
         }
     }
 }
