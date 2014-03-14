@@ -208,19 +208,15 @@ public  class ProfessorProfileActivity extends Activity{
                 titleView = (TextView) findViewById(R.id.prof_title_section);
                 titleView.append("Title: "+title[i]);
                 titleView.append("\n");
-            }
-
-            for(int j = 0; j < code.length; j++){
-                codeView = (TextView) findViewById(R.id.prof_code_section);
-                codeView.append("Code: " + code[j]);
+                codeView = (TextView) findViewById(R.id.prof_title_section);
+                codeView.append("Code: " + code[i]);
                 codeView.append("\n");
-
-            }
-
-            for (int k = 0; k < section.length; k++){
-                sectionView = (TextView) findViewById(R.id.prof_section_section);
-                sectionView.append("Section: "+section[k]);
+                sectionView = (TextView) findViewById(R.id.prof_title_section);
+                sectionView.append("Section: "+section[i]);
                 sectionView.append("\n" );
+                sectionView.append("\n" );
+
+
             }
 
 
