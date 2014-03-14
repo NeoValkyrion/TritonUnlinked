@@ -79,6 +79,14 @@
         <item>10:00</item>
     </string-array>
 
+    <string-array name="days_of_week">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
+
     <string name="title_activity_browse">BrowseActivity</string>
 
 </resources>
