@@ -21,20 +21,29 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import java.util.ArrayList;
 
 public class BrowseActivity extends FragmentActivity implements ActionBar.TabListener{
 
     private static final String CURRENT_NAV_ITEM = "current_selected_nav_item";
-    private boolean isOnCourses = true;
+    private short whichPage = 1;
     private BrowseCoursesFragment browseCoursesFrag;
     private BrowseProfessorsFragment browseProfFrag;
+    private BrowseRoomsFragment browseRoomsFrag;
 
-//    @Override
-//    public void onStart(){
-//        super.onStart();
-//        EasyTracker.getInstance(this).activityStart(this);
-//    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        // The rest of your onStop() code.
+        EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +57,7 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
 
         actionBar.addTab(actionBar.newTab().setText("Courses").setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText("Professors").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Rooms").setTabListener(this));
     }
 
     @Override
@@ -85,11 +95,17 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
         if (tab.getPosition() == 0) {
             browseCoursesFrag = new BrowseCoursesFragment();
             getFragmentManager().beginTransaction().replace(R.id.activityBrowseContainer, browseCoursesFrag).commit();
+            this.whichPage = 1;
         }
         else if (tab.getPosition() == 1) {
             browseProfFrag = new BrowseProfessorsFragment();
             getFragmentManager().beginTransaction().replace(R.id.activityBrowseContainer, browseProfFrag).commit();
-            this.isOnCourses = false;
+            this.whichPage = 2;
+        }
+        else{
+            browseRoomsFrag = new BrowseRoomsFragment();
+            getFragmentManager().beginTransaction().replace(R.id.activityBrowseContainer, browseRoomsFrag).commit();
+            this.whichPage = 3;
         }
     }
 
@@ -104,11 +120,14 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
     }
     @Override
     public void onBackPressed(){
-        if(isOnCourses){
+        if(this.whichPage == 1){
             browseCoursesFrag.onBackPressed();
         }
-        else{
+        else if (this.whichPage == 2){
             browseProfFrag.onBackPressed();
+        }
+        else if(this.whichPage == 3){
+            browseRoomsFrag.onBackPressed();
         }
     }
 }

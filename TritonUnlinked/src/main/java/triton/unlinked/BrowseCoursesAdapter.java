@@ -13,22 +13,24 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BrowseCoursesAdapter extends BaseAdapter {
     private final Context context;
-    private ArrayList<String> subjList;
-    private ArrayList<String> title;
-    private ArrayList<String> course;
+    private ArrayList<CourseObject> coursesList;
     private boolean displayingCourseAndTitle;
 
-    public BrowseCoursesAdapter(Context context, ArrayList<String> course, ArrayList<String> title) {
+    public BrowseCoursesAdapter(Context context, ArrayList<CourseObject> coursesList ) {
         this.context = context;
         setDisplayingCourseAndTitle(false);
-        this.subjList = course;
-        addCourseRow(course, title);
+        this.coursesList = coursesList;
+        addCourseRow(this.coursesList);
     }
     public int getCount(){
-        return this.course.size();
+        return this.coursesList.size();
     }
     public long getItemId(int position){
         return position;
@@ -42,10 +44,10 @@ public class BrowseCoursesAdapter extends BaseAdapter {
     public boolean getDisplayingCourseAndTitle(){
         return this.displayingCourseAndTitle;
     }
-    public void addCourseRow(ArrayList<String> course, ArrayList<String> title){
-        this.course = course;
-        this.title = title;
-        if (course.size() > 0 && title.size() > 0 ){
+
+    public void addCourseRow(ArrayList<CourseObject> course){
+        this.coursesList = course;
+        if ( !course.get(0).getTitle().equalsIgnoreCase("") ){
             setDisplayingCourseAndTitle(true);
         }
         else{
@@ -61,11 +63,54 @@ public class BrowseCoursesAdapter extends BaseAdapter {
         TextView titleText = (TextView) rowView.findViewById(R.id.courseTitleListItem);
         TextView descText = (TextView) rowView.findViewById(R.id.courseDescListItem);
 
-        if (this.course.size() > position && !this.course.get(position).equalsIgnoreCase(""))
-            titleText.setText(this.course.get(position));
+        Collections.sort(this.coursesList, new Comparator<CourseObject>() {
+            @Override
+            public int compare(CourseObject course1, CourseObject course2) {
+                if (course1.getSubject().indexOf(" ") > -1){
+                    int numberStart = course1.getSubject().indexOf(" ") + 1;
 
-        if (this.title.size() > position && !this.title.get(position).equalsIgnoreCase(""))
-            descText.setText(this.title.get(position));
+                    /* getting the subject numbers */
+                    String subj1 = course1.getSubject().substring(numberStart, course1.getSubject().length());
+                    String subj2 = course2.getSubject().substring(numberStart, course2.getSubject().length());
+
+                    /* remove letters from subject number */
+                    Pattern pattern = Pattern.compile("([A-Z])");
+                    Matcher matcher = pattern.matcher(subj1);
+                    if (matcher.find()){
+                        subj1 = subj1.substring(0,matcher.start());
+                    }
+                    matcher = pattern.matcher(subj2);
+                    if (matcher.find()){
+                        subj2 = subj2.substring(0,matcher.start());
+                    }
+
+                    if ( subj1.length() - subj2.length() == 0 ){
+                        return subj1.compareTo(subj2);
+                    }
+                    else if (subj1.length() - subj2.length() > 0){
+                        String padding = "";
+                        for (int i = 0; i < subj1.length() - subj2.length(); ++i){
+                            padding += "0";
+                        }
+                        return subj1.compareTo(padding + subj2);
+                    }
+                    else{
+                        String padding = "";
+                        for (int i = 0; i < subj2.length() - subj1.length(); ++i){
+                            padding += "0";
+                        }
+                        return (padding + subj1).compareTo(subj2);
+                    }
+                }
+                int swag = course1.getSubject().compareTo(course2.getSubject());
+                Log.i("BrowseCoursesAdapter", "Comparison: " + course1.getSubject() + " - " + course2.getSubject() + " = " + swag);
+                return swag;
+            }
+        });
+
+        titleText.setText(this.coursesList.get(position).getSubject());
+        if ( !this.coursesList.get(position).getTitle().equalsIgnoreCase("") )
+            descText.setText(this.coursesList.get(position).getTitle());
         else
             descText.setVisibility(View.GONE);
 

@@ -5,35 +5,36 @@ import android.content.Context;
 import android.database.Cursor;
 
 /**
- * DAO for "BrowseProfessors" table.
+ * DAO for "BrowseRooms" table.
  *
  * Create a new instance and use the methods to interact with the database.
- * Data is returned as instances of BrowseCoursesRow where each column
+ * Data is returned as instances of BrowseRooms where each column
  * is a publicly accessible property.
  *
  */
-public class BrowseProfessorsModel extends SQLiteDAO {
+public class BrowseRoomsModel extends SQLiteDAO {
 
-    public static final String COL_FNAME     = "fname";
-    public static final String COL_LNAME     = "lname";
-    public static final String COL_PID       = "prof_id";
+    public static final String COL_BLD      = "bld";
+    public static final String COL_ROOM     = "room";
+    public static final String COL_RID     = "room_id";
+
     /**
      * Init SQLiteDAO with table "browse_professors"
      */
-    public BrowseProfessorsModel(Context ctx)
+    public BrowseRoomsModel(Context ctx)
     {
-        super("browse_professors", ctx);
+        super("browse_rooms", ctx);
     }
 
     /**
      * Utility method to grab all the rows from a cursor
      */
-    private BrowseProfessorsRow[] fetchBrowseProfessorsRows(Cursor cr)
+    private BrowseRoomsRow[] fetchBrowseRoomsRows(Cursor cr)
     {
         if (cr == null) {
             return null;
         }
-        BrowseProfessorsRow[] result = new BrowseProfessorsRow[cr.getCount()];
+        BrowseRoomsRow[] result = new BrowseRoomsRow[cr.getCount()];
         if (result.length == 0) {
             cr.close();
             return result;
@@ -45,19 +46,19 @@ public class BrowseProfessorsModel extends SQLiteDAO {
         // Grab the cursor's column indices
         // An error here indicates the COL constants aren't synced with the DB
         int ind_id   = cr.getColumnIndexOrThrow(COL_ID);
-        int ind_fname  = cr.getColumnIndexOrThrow(COL_FNAME);
-        int ind_lname = cr.getColumnIndexOrThrow(COL_LNAME);
-        int ind_pid = cr.getColumnIndexOrThrow(COL_PID);
+        int ind_bld  = cr.getColumnIndexOrThrow(COL_BLD);
+        int ind_room = cr.getColumnIndexOrThrow(COL_ROOM);
+        int ind_rid = cr.getColumnIndexOrThrow(COL_RID);
         int ind_dm   = cr.getColumnIndexOrThrow(COL_MDATE);
         int ind_dc   = cr.getColumnIndexOrThrow(COL_CDATE);
 
         // Iterate over every row (move the cursor down the set)
         while (valid) {
-            result[ii] = new BrowseProfessorsRow();
+            result[ii] = new BrowseRoomsRow();
             fetchBaseData(cr, result[ii], ind_id, ind_dm, ind_dc);
-            result[ii].fname    = cr.getString(ind_fname);
-            result[ii].lname      = cr.getString(ind_lname);
-            result[ii].prof_id      = cr.getString(ind_pid);
+            result[ii].bld    = cr.getString(ind_bld);
+            result[ii].room      = cr.getString(ind_room);
+            result[ii].room_id      = cr.getString(ind_rid);
 
             valid = cr.moveToNext();
             ii ++;
@@ -68,39 +69,39 @@ public class BrowseProfessorsModel extends SQLiteDAO {
     }
 
     /**
-     * Inserts a new entry into the course table
+     * Inserts a new entry into the room table
      */
-    public long insert(BrowseProfessorsRow row)
+    public long insert(BrowseRoomsRow row)
     {
         return super.insert(row.toContentValues());
     }
 
     /**
-     * Inserts a new entry into the browse_courses table, defaults record to 0
+     * Inserts a new entry into the browse_rooms table, defaults record to 0
      */
-    public long insert(String fname, String lname, String prof_id)
+    public long insert(String bld, String room, String room_id)
     {
         ContentValues cv = new ContentValues();
-        cv.put(COL_FNAME, fname);
-        cv.put(COL_LNAME, lname);
-        cv.put(COL_PID, prof_id);
+        cv.put(COL_BLD, bld);
+        cv.put(COL_ROOM, room);
+        cv.put(COL_RID, room_id);
         return super.insert(cv);
     }
 
     /**
-     * Fetch all BrowseCourseRows
+     * Fetch all BrowseRoomRows
      */
-    public BrowseProfessorsRow[] getAllProfessorsRows()
+    public BrowseRoomsRow[] getAllRoomsRows()
     {
         Cursor cr = select(new String[] {}, new String[] {});
 
-        return fetchBrowseProfessorsRows(cr);
+        return fetchBrowseRoomsRows(cr);
     }
 
     /**
      * Fetch an entry via the ID
      */
-    public BrowseProfessorsRow getByID(long id)
+    public BrowseRoomsRow getByID(long id)
     {
         Cursor cr = selectByID(id);
 
@@ -108,7 +109,7 @@ public class BrowseProfessorsModel extends SQLiteDAO {
             return null;
         }
 
-        BrowseProfessorsRow[] rows = fetchBrowseProfessorsRows(cr);
+        BrowseRoomsRow[] rows = fetchBrowseRoomsRows(cr);
         return (rows.length == 0) ? null : rows[0];
     }
 

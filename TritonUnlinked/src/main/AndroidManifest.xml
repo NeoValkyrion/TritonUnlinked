@@ -3,6 +3,7 @@
     package="triton.unlinked" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -54,6 +55,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/BrowseActionBarTheme">
         </activity>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="f0d7d71294833cc6c041703af38d5d3c8f6d4947"/>
     </application>
 
 </manifest>

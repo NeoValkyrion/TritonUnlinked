@@ -19,18 +19,19 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by jeremykao on 2/27/14.
  */
-public class BrowseCoursesFragment extends ListFragment {
+public class BrowseCoursesFragment extends ListFragment{
 
     Activity browseActivity;
     private BrowseCoursesModel course_model_data;
     private BrowseCoursesRow[] course_row_data;
     ArrayList<String> subjectList;
-    ArrayList<String> courseCourseList = new ArrayList<String>();
-    ArrayList<String> courseTitleList = new ArrayList<String>();
+    ArrayList<CourseObject> courses = new ArrayList<CourseObject>();
     private BrowseCoursesAdapter browseAdapter;
 
     public BrowseCoursesFragment(){
@@ -47,8 +48,11 @@ public class BrowseCoursesFragment extends ListFragment {
         subjectList = course_model_data.getAllSubjects();
         course_model_data.close();
 
+        for (int i = 0; i < subjectList.size(); ++i){
+            this.courses.add(new CourseObject(this.subjectList.get(i), ""));
+        }
 
-        browseAdapter = new BrowseCoursesAdapter(this.getActivity(), this.subjectList, new ArrayList<String>());
+        browseAdapter = new BrowseCoursesAdapter(this.getActivity(), this.courses);
         this.setListAdapter(browseAdapter);
         /*for (int i = 0; i < course_row_data.length; i++) {
             subjectList.add(course_row_data[i].subject);
@@ -69,17 +73,19 @@ public class BrowseCoursesFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView list, View v, int position, long id) {
         if (!browseAdapter.getDisplayingCourseAndTitle()){
-            this.courseTitleList.clear();
-            this.courseCourseList.clear();
 
             course_model_data.open();
-            course_row_data = course_model_data.getAllBySubject(subjectList.get(position));
+            course_row_data = course_model_data.getAllBySubject(this.courses.get(position).getSubject());
             course_model_data.close();
 
+            this.courses.clear();
             for (int i = 0; i < course_row_data.length; ++i){
-                this.courseCourseList.add(course_row_data[i].course);
-                this.courseTitleList.add(course_row_data[i].title);
+                this.courses.add(new CourseObject(course_row_data[i].course, course_row_data[i].title));
             }
+
+            int wantedPosition = position;
+            int firstPosition = list.getFirstVisiblePosition() - list.getHeaderViewsCount();
+            wantedPosition = wantedPosition - firstPosition;
 
             Animation anim = AnimationUtils.loadAnimation(browseActivity, R.anim.push_left_out);
             anim.setAnimationListener(new Animation.AnimationListener() {
@@ -90,7 +96,7 @@ public class BrowseCoursesFragment extends ListFragment {
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    browseAdapter.addCourseRow(BrowseCoursesFragment.this.courseCourseList, BrowseCoursesFragment.this.courseTitleList);
+                    browseAdapter.addCourseRow(courses);
                     browseAdapter.notifyDataSetChanged();
                 }
 
@@ -99,28 +105,31 @@ public class BrowseCoursesFragment extends ListFragment {
 
                 }
             });
-            list.getChildAt(position).startAnimation(anim);
+            list.getChildAt(wantedPosition).startAnimation(anim);
         }
         else{
             //If clicked subject code, then now on course number page. then link to course profiles
-            String[] courseTitle = this.courseTitleList.get(position).split(" ");
             Intent intent = new Intent(getActivity(), CourseProfileActivity.class);
-            intent.putExtra("subject", courseTitle[0]);
-            intent.putExtra("num", courseTitle[courseTitle.length-1]);
+            intent.putExtra("SearchValue", this.courses.get(position).getTitle());
             startActivity(intent);
         }
 
     }
     public void onBackPressed(){
         if (browseAdapter.getDisplayingCourseAndTitle()){
-            browseAdapter.addCourseRow(this.subjectList, new ArrayList<String>());
+            this.courses.clear();
+            for (int i = 0; i < subjectList.size(); ++i){
+                this.courses.add(new CourseObject(this.subjectList.get(i), ""));
+            }
+
+            browseAdapter.addCourseRow(this.courses);
             browseAdapter.notifyDataSetChanged();
         }
         else{
             Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
 
     }
-
 }

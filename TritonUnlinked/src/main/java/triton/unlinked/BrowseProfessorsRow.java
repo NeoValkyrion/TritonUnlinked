@@ -11,6 +11,7 @@ import android.content.ContentValues;
 public class BrowseProfessorsRow extends SQLiteRow {
     public String lname;
     public String fname;
+    public String prof_id;
 
     public BrowseProfessorsRow() {}
 
@@ -18,6 +19,7 @@ public class BrowseProfessorsRow extends SQLiteRow {
         super(vals);
         lname = vals.getAsString(BrowseProfessorsModel.COL_LNAME);
         fname = vals.getAsString(BrowseProfessorsModel.COL_FNAME);
+        prof_id = vals.getAsString(BrowseProfessorsModel.COL_PID);
     }
 
     @Override
@@ -25,6 +27,7 @@ public class BrowseProfessorsRow extends SQLiteRow {
         ContentValues vals = super.toContentValues();
         vals.put(BrowseProfessorsModel.COL_LNAME, lname);
         vals.put(BrowseProfessorsModel.COL_FNAME, fname);
+        vals.put(BrowseProfessorsModel.COL_PID, prof_id);
         return vals;
     }
 }
