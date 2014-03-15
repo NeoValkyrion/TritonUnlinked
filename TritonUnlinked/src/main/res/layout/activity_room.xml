@@ -27,7 +27,7 @@
     <View
         android:id="@+id/blueRectangle"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:background="@drawable/rectangle_blue"/>
 
     <!--<TextView
@@ -40,18 +40,20 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/lecture_hall"
+        android:id="@+id/bld_room"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_alignParentTop="true" />
 
-    <TextView
+    <!--<TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/room_number"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_below="@+id/lecture_hall" />
+        android:layout_toRightOf="@+id/lecture_hall" />-->
 
     <Spinner
         android:id="@+id/dayPicker"
@@ -59,7 +61,7 @@
         android:layout_height="wrap_content"
         android:popupBackground="#000000"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/room_number"/>
+        android:layout_below="@id/bld_room"/>
 
     <ListView
         android:layout_width="wrap_content"

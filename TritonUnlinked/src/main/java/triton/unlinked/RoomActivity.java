@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -55,12 +56,11 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
      */
 
     //Temporary, must be replaced by constructed query string given course information
-    private static String url = "http://tritonunlinked.herokuapp.com/room?bld=CENTR&room=109";
+    //private static String url = "http://tritonunlinked.herokuapp.com/room?bld=CENTR&room=109";
 
-    private TextView bldView;
-    private TextView roomView;
-    private TextView courseNameView;
-    private TextView startEndView;
+    //private TextView bldView;
+    //private TextView roomView;
+    private TextView bldRoomView;
 
     //JSON field tags for Room
     private static final String TAG_BLD = "bld";
@@ -93,7 +93,10 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("SearchValue");
-            Log.d("RoomActivity", "SearchValue: " + value);
+            String[] dataSplit = value.split(" ");
+            building = dataSplit[0];
+            room = dataSplit[1];
+            Log.v("RoomActivity", "SearchValue: " + value);
         }
 
         //RoomScheduleAdapter adapter = new RoomScheduleAdapter(this, times);
@@ -101,6 +104,7 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
 
         timeListView = (ListView) findViewById(R.id.schedule);
         timeListView.setAdapter(timeListAdapter);
+        timeListView.setOnItemClickListener(new RoomActivityOnItemClickListener());
     }
 
 
@@ -144,7 +148,7 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
             //Create service handler class instance
             ServiceHandler sh = new ServiceHandler();
 
-            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
+            String jsonStr = sh.makeServiceCall(generateUrl(building, room), ServiceHandler.GET);
 
             Log.d("Response: ", "> " + jsonStr);
 
@@ -153,8 +157,8 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     //Save values from JSON Object
-                    building = jsonObj.getString(TAG_BLD);
-                    room = jsonObj.getString(TAG_ROOM);
+                    //building = jsonObj.getString(TAG_BLD);
+                    //room = jsonObj.getString(TAG_ROOM);
                     JSONArray classesArr = jsonObj.getJSONArray(TAG_CLASSES);
 
                     //FOR TESTING PURPOSES: adding fake data to the classesArr
@@ -180,10 +184,14 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
             super.onPostExecute(result);
 
             //Update local fields with values from JSON
-            bldView = (TextView) findViewById(R.id.lecture_hall);
+            bldRoomView = (TextView) findViewById(R.id.bld_room);
+            bldRoomView.setText(building + " " + room);
+            /*bldView = (TextView) findViewById(R.id.lecture_hall);
             bldView.setText(building);
             roomView = (TextView) findViewById(R.id.room_number);
-            roomView.setText(room);
+            roomView.setText(room);*/
+
+            timeListView.invalidateViews();
 
             // Dismiss the progress dialog
             if (pDialog.isShowing())
@@ -254,6 +262,10 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
             textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+    }
+
+    private String generateUrl(String bld, String room){
+        return "http://tritonunlinked.herokuapp.com/room?bld=" + bld + "&room=" + room;
     }
 
 }
