@@ -145,14 +145,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         startActivity(intent);
     }
 
-    /**
-     * Called when the user clicks the Room Page button
-     */
-    public void RoomPage(View view) {
-        Intent intent = new Intent(this, RoomActivity.class);
-        startActivity(intent);
-    }
-
     //Get value from spinner as well as setting autocomplete adapter
     @Override
     public void onItemSelected(AdapterView<?> parent, View view,
@@ -179,6 +171,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         }
         else{
             Intent i = new Intent(getApplicationContext(), BrowseActivity.class);
+            i.putExtra("SelectedCategory", this.spinnerOption);
             startActivity(i);
         }
     }

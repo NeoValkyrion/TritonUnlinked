@@ -103,7 +103,6 @@ public class BrowseCoursesAdapter extends BaseAdapter {
                     }
                 }
                 int swag = course1.getSubject().compareTo(course2.getSubject());
-                Log.i("BrowseCoursesAdapter", "Comparison: " + course1.getSubject() + " - " + course2.getSubject() + " = " + swag);
                 return swag;
             }
         });

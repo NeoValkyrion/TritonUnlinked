@@ -55,9 +55,23 @@ public class BrowseActivity extends FragmentActivity implements ActionBar.TabLis
         //actionBar.setIcon(android.R.color.transparent);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        actionBar.addTab(actionBar.newTab().setText("Courses").setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("Professors").setTabListener(this));
-        actionBar.addTab(actionBar.newTab().setText("Rooms").setTabListener(this));
+        ActionBar.Tab coursesTab = actionBar.newTab().setText("Courses").setTabListener(this);
+        ActionBar.Tab profsTab = actionBar.newTab().setText("Professors").setTabListener(this);
+        ActionBar.Tab roomsTab = actionBar.newTab().setText("Rooms").setTabListener(this);
+        actionBar.addTab(coursesTab);
+        actionBar.addTab(profsTab);
+        actionBar.addTab(roomsTab);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            String whichTab = extras.getString("SelectedCategory");
+            if (whichTab.equalsIgnoreCase("Courses"))
+                actionBar.selectTab(coursesTab);
+            else if (whichTab.equalsIgnoreCase("Professors"))
+                actionBar.selectTab(profsTab);
+            else if (whichTab.equalsIgnoreCase("Rooms"))
+                actionBar.selectTab(roomsTab);
+        }
     }
 
     @Override
