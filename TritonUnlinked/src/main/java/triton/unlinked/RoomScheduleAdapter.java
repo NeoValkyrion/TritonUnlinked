@@ -158,11 +158,11 @@ public class RoomScheduleAdapter extends ArrayAdapter<String> {
                                 fill = true;
                             }
                             else {
-                                //case 2: 80 minute class
+                                //case 2: 80 minute or 2 hr class
                                 if( ((startHr + 1) % 12) == (endHr % 12) ) {
-                                    Log.d("RoomScheduleAdapter", "80 minute class: " + courseName + ", day: " + day + ", start: " + start + ", end: " + end);
-                                    //case 2a: starts on the hour, ends at x:20 (ex: 8:00-9:20) -- in this case, the text should be set in the FIRST item
-                                    if( startMin == 0 ) {
+                                    //Log.d("RoomScheduleAdapter", "80 minute class: " + courseName + ", day: " + day + ", start: " + start + ", end: " + end);
+                                    // 80 min class that starts on the hour, ends at x:20 (ex: 8:00-9:20) -- in this case, the text should be set in the FIRST item
+                                    if( startMin == 0 && endMin == 20 ) {
                                         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, itemToUpdate.getContext().getResources().getDisplayMetrics());
                                         RelativeLayout.LayoutParams schedBlock1Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
                                         scheduleBlock1.setLayoutParams(schedBlock1Param);
@@ -172,12 +172,22 @@ public class RoomScheduleAdapter extends ArrayAdapter<String> {
 
                                         fill = true;
                                     }
-                                    else {
-                                        Log.d("RoomScheduleAdapter", "Are we getting here?? class: " + courseName + ", day: " + day + ", start: " + start + ", end: " + end);
+                                    else if( startMin == 30 && endMin == 50 ) { //80 min class that starts at :30, ends at :50
+                                        //Log.d("RoomScheduleAdapter", "Are we getting here?? class: " + courseName + ", day: " + day + ", start: " + start + ", end: " + end);
                                         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, itemToUpdate.getContext().getResources().getDisplayMetrics());
                                         RelativeLayout.LayoutParams schedBlock1Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
                                         schedBlock1Param.setMargins(0, height, 0, 0);
                                         scheduleBlock2.setLayoutParams(schedBlock1Param);
+
+                                        fill = true;
+                                    }
+                                    else if( startMin == 0 && endMin == 50 ) { //2 hour class
+                                        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, itemToUpdate.getContext().getResources().getDisplayMetrics());
+                                        RelativeLayout.LayoutParams schedBlock1Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
+                                        scheduleBlock1.setLayoutParams(schedBlock1Param);
+
+                                        courseNameView.setText(courseName);
+                                        courseTimeView.setText(start + " - " + end);
 
                                         fill = true;
                                     }
@@ -188,21 +198,21 @@ public class RoomScheduleAdapter extends ArrayAdapter<String> {
                                 //courseTimeView.setText(start + " - " + end);
                             }
                         }
-                        //this case is for classes longer that 50 min, that require than 1 block to be set
+                        //this case is for classes longer that 50 min, that require more than 1 block to be set
                         else if( (endHr == Integer.parseInt(listItemTime.split(":")[0])) && end.split(":")[1].substring(2).equals(listItemTime.split(":")[1].substring(2)) ) {
                             fill = true;
-                            //case 2: 80 minute class
+                            //case 2: 80 minute class or 2 hr class
                             if( ((startHr + 1) % 12) == (endHr % 12) ) {
-                                //case 2a: starts on the hour, ends at x:20 (ex: 8:00-9:20) -- setting the SECOND box of the 2 required boxes (this one should be 20dp tall)
-                                if( startMin == 0 ) {
+                                //80 min class that starts on the hour, ends at x:20 (ex: 8:00-9:20) -- setting the SECOND box of the 2 required boxes (this one should be 20dp tall)
+                                if( startMin == 0 && endMin == 20 ) {
                                     int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, endMin, itemToUpdate.getContext().getResources().getDisplayMetrics());
                                     RelativeLayout.LayoutParams schedBlock1Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
                                     scheduleBlock1.setLayoutParams(schedBlock1Param);
 
                                     fill = true;
                                 }
-                                //case 2b: starts on the half-hour, ends at x:50 (ex: 9:30-10:50) -- setting the SECOND box of the 2 required boxes (this one should be 20dp tall)
-                                else if( startMin == 30 ) {
+                                //80 min class that starts on the half-hour, ends at x:50 (ex: 9:30-10:50) -- setting the SECOND box of the 2 required boxes (this one should be 20dp tall)
+                                else if( startMin == 30 && endMin == 50 ) {
                                     int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, endMin, itemToUpdate.getContext().getResources().getDisplayMetrics());
                                     RelativeLayout.LayoutParams schedBlock2Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
                                     scheduleBlock1.setLayoutParams(schedBlock2Param);
@@ -212,11 +222,18 @@ public class RoomScheduleAdapter extends ArrayAdapter<String> {
 
                                     fill = true;
                                 }
+                                else if( startMin == 0 && endMin == 50 ) { //2 hour class
+                                    int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, endMin, itemToUpdate.getContext().getResources().getDisplayMetrics());
+                                    RelativeLayout.LayoutParams schedBlock2Param = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height);
+                                    scheduleBlock1.setLayoutParams(schedBlock2Param);
+
+                                    fill = true;
+                                }
                             }
                         }
 
                         if(!fill) {
-                            Log.d("RoomScheduleAdapter", "fill was not set to true! class: " + courseName + ", day: " + day + ", start: " + start + ", end: " + end);
+                            //Log.d("RoomScheduleAdapter", "fill was not set to true! class: " + courseName + ", day: " + day + ", start: " + start + ", end: " + end);
                             courseNameView.setText("");
                             courseTimeView.setText("");
                             scheduleBlock1.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 0));
