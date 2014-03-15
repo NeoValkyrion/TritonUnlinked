@@ -179,6 +179,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         }
         else{
             Intent i = new Intent(getApplicationContext(), BrowseActivity.class);
+            i.putExtra("SelectedCategory", this.spinnerOption);
             startActivity(i);
         }
     }
