@@ -1,83 +1,107 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="triton.unlinked.CourseProfileActivity.CourseFragment">
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        tools:context="triton.unlinked.CourseProfileActivity.CourseFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/course_desc"
-        android:id="@+id/course_desc"
-        android:layout_marginTop="40dp"
-        android:textColor="@color/textbody"/>
+            <TextView
+                android:id="@+id/course_section_prof"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text="Paul Kube"
+                android:textColor="@color/textbody"
+                android:textSize="30dp">
+            </TextView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/course_section"
-        android:id="@+id/course_section"
-        android:layout_marginTop="62dp"
-        android:layout_below="@+id/course_desc"
-        android:layout_alignRight="@+id/course_section_prof"
-        android:textColor="@color/textbody"/>
+             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="Lecture"
+                android:textSize="@dimen/courseHeaderFontSize"
+                android:textColor="@color/textbody"/>
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/course_section"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/course_section"
-        android:textColor="@color/textbody"/>
+            <TextView
+                android:id="@+id/course_section_lecture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/course_section_prof"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="30dp"
+                android:text="TuTh 3:30p - 4:50p"
+                android:textSize="@dimen/courseTextFontSize"
+                android:textColor="@color/textbody"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/course_section_type"
-        android:id="@+id/course_section_type"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="25dp"
-        android:layout_below="@+id/course_section"
-        android:textColor="@color/textbody"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="@dimen/courseBetweenSections"
+                android:text="Discussion"
+                android:textSize="@dimen/courseHeaderFontSize"
+                android:textColor="@color/textbody"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/course_section_prof"
-        android:id="@+id/course_section_prof"
-        android:layout_below="@+id/course_section_type"
-        android:layout_alignParentLeft="true"
-        android:textColor="@color/textbody"/>
+            <TextView
+                android:id="@+id/course_section_discussions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="30dp"
+                android:textSize="@dimen/courseTextFontSize"
+                android:text="W 8:00a - 8:50a\nW 9:00a - 9:50a"
+                android:textColor="@color/textbody"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/course_section_time"
-        android:id="@+id/course_section_time"
-        android:layout_below="@+id/course_section_prof"
-        android:layout_alignParentLeft="true"
-        android:textColor="@color/textbody"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="@dimen/courseBetweenSections"
+                android:text="Final"
+                android:textSize="@dimen/courseHeaderFontSize"
+                android:textColor="@color/textbody"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/course_section_loc"
-        android:id="@+id/course_section_loc"
-        android:layout_below="@+id/course_section_time"
-        android:layout_alignParentLeft="true"
-        android:textColor="@color/textbody"/>
+            <TextView
+                android:id="@+id/course_section_final"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="30dp"
+                android:text="Tu 2:00a - 5:59a"
+                android:textSize="@dimen/courseTextFontSize"
+                android:textColor="@color/textbody"/>
 
-</RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="@dimen/courseBetweenSections"
+                android:text="Location"
+                android:textSize="@dimen/courseHeaderFontSize"
+                android:textColor="@color/textbody"/>
+
+            <TextView
+                android:id="@+id/course_section_loc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="30dp"
+                android:textSize="@dimen/courseTextFontSize"
+                android:text="Solis Lecture Hall\nRoom 107"
+                android:textColor="@color/textbody"/>
+    </LinearLayout>
+</ScrollView>

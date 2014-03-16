@@ -5,6 +5,10 @@ import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +19,15 @@ import org.json.JSONObject;
  */
 public class CourseProfileAsyncFragment extends Fragment {
     private static final String TAG = CourseProfileAsyncFragment.class.getSimpleName();
+    private String courseDept;
+    private String courseNum;
 
+    public CourseProfileAsyncFragment(String courseName){
+        Log.i("CourseProfileAsync", "this is courseName: " + courseName);
+        String[] courseArr = courseName.split(" ");
+        this.courseDept = courseArr[0];
+        this.courseNum = courseArr[courseArr.length-1];
+    }
     /**
      * Callback interface through which the fragment can report the task's
      * results back to the Activity.
@@ -28,7 +40,6 @@ public class CourseProfileAsyncFragment extends Fragment {
     private TaskCallbacks mCallbacks;
     private GetCoursesTask mTask;
     private boolean mRunning;
-
     /**
      * Android passes us a reference to the newly created Activity by calling this
      * method after each configuration change.
@@ -75,7 +86,7 @@ public class CourseProfileAsyncFragment extends Fragment {
      */
     public void start() {
         if (!mRunning) {
-            mTask = new GetCoursesTask();
+            mTask = new GetCoursesTask(this.courseDept, this.courseNum);
             mTask.execute();
             mRunning = true;
         }
@@ -103,13 +114,20 @@ public class CourseProfileAsyncFragment extends Fragment {
      * Async task class to get json by making HTTP call
      */
     private class GetCoursesTask extends AsyncTask<Void, Void, Void> {
+        private String courseSubj;
+        private String courseNum;
 
         //Temporary, must be replaced by constructed query string given course information
-        private String url = "http://tritonunlinked.herokuapp.com/courseinfo?dept=CSE&subject=CSE&num=101";
+        private String url;
 
         private JSONObject courseJson;
         private JSONArray sectionsJson;
 
+        public GetCoursesTask(String courseSubj, String courseNum){
+            this.courseSubj = courseSubj;
+            this.courseNum = courseNum;
+            this.url =  "http://tritonunlinked.herokuapp.com/coursedb?subject="+ this.courseSubj +"&num="+ this.courseNum;
+        }
         @Override
         protected void onPreExecute() {
             mCallbacks.onPreExecute();
@@ -120,7 +138,7 @@ public class CourseProfileAsyncFragment extends Fragment {
         protected Void doInBackground(Void... arg0) {
             //Create service handler class instance
             ServiceHandler sh = new ServiceHandler();
-
+            Log.i("CourseProfile", "this is the url hit: " + url);
             String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
 
             Log.d("Response: ", "> " + jsonStr);

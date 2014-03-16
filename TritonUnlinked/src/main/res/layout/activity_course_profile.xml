@@ -1,31 +1,79 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#445fb0">
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#445fb0">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/course_sub"
-        android:id="@+id/course_sub"
-        android:layout_gravity="center_horizontal" />
+       <LinearLayout
+           android:id="@+id/courseTitleBar"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingTop="10dp"
+           android:paddingBottom="10dp"
+           android:orientation="horizontal"
+           android:textAlignment="center"
+           android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/courseTitleFontSize"
+                android:id="@+id/course_sub" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/course_num"
-        android:id="@+id/course_num"
-        android:layout_gravity="center_horizontal" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="@dimen/courseTitleFontSize"
+                android:id="@+id/course_num"/>
+       </LinearLayout>
+        <TextView
+            android:id="@+id/course_section"
+            android:background="#acacae"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:text="Section 1"
+            android:textColor="@color/textbody"/>
+        <LinearLayout
+            android:id="@+id/coursePagerLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:background="#acacae">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#acacae"
+                tools:context="triton.unlinked.CourseProfileActivity"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <ScrollView
+        android:id="@+id/course_scrollview_desc"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:background="#dcdcde"
-        tools:context="triton.unlinked.CourseProfileActivity" />
-
-</LinearLayout>
+        android:layout_marginTop="65dp"
+        android:fillViewport="true"
+        android:visibility="gone">
+    <TextView
+        android:id="@+id/course_desc"
+        android:background="#66333333"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="@string/course_desc"
+        android:padding="30dp"
+        android:textSize="@dimen/courseHeaderFontSize"
+        android:textColor="#FFFFFF"/>
+    </ScrollView>
+</FrameLayout>
