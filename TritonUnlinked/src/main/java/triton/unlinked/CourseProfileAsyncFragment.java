@@ -22,11 +22,9 @@ public class CourseProfileAsyncFragment extends Fragment {
     private String courseDept;
     private String courseNum;
 
-    public CourseProfileAsyncFragment(String courseName){
-        Log.i("CourseProfileAsync", "this is courseName: " + courseName);
-        String[] courseArr = courseName.split(" ");
-        this.courseDept = courseArr[0];
-        this.courseNum = courseArr[courseArr.length-1];
+    public CourseProfileAsyncFragment(String courseSubj, String courseNum){
+        this.courseDept = courseSubj;
+        this.courseNum = courseNum;
     }
     /**
      * Callback interface through which the fragment can report the task's

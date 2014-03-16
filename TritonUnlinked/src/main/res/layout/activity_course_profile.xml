@@ -68,7 +68,7 @@
         android:visibility="gone">
     <TextView
         android:id="@+id/course_desc"
-        android:background="#66333333"
+        android:background="#DD333333"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:text="@string/course_desc"

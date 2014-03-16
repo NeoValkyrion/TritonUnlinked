@@ -49,6 +49,7 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
     private ScrollView courseScrollViewDesc;
 
     protected boolean showingDesc = false;
+    private String courseSubj, courseNum;
 
     private JSONObject courseJson;
 
@@ -90,7 +91,10 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
         if (mTaskFragment == null && searchTerm != null) {
             String value = searchTerm.getString("SearchValue");
             Log.i("CourseProfileActivity", "This is value passed into AsyncFrag" + value);
-            mTaskFragment = new CourseProfileAsyncFragment(value);
+            String[] courseArr = value.split(" ");
+            this.courseSubj = courseArr[0];
+            this.courseNum = courseArr[courseArr.length-1];
+            mTaskFragment = new CourseProfileAsyncFragment(this.courseSubj, this.courseNum);
             fm.beginTransaction().add(mTaskFragment, "task").commit();
         }
 
@@ -131,49 +135,61 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
     @Override
     public void onPostExecute(JSONObject course) {
         Log.i(TAG, "onPostExecute()");
-        try {
-            mSectionsPagerAdapter.clearFragments();
-            courseSubView.setText(course.getString("subject"));
-            courseNumView.setText(course.getString("num"));
-            String description = course.getString("desc");
-            description = "Description: " + description;
-            description = description.replace("Prerequisite", "\n\nPrerequisites: ");
-            courseDescView.setText(description);
-
-
-            LinearLayout titleBar = (LinearLayout) findViewById(R.id.courseTitleBar);
-            titleBar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (CourseProfileActivity.this.showingDesc){
-                        courseScrollViewDesc.setVisibility(View.GONE);
+        courseSubView.setText(this.courseSubj);
+        courseNumView.setText(this.courseNum);
+        if (course != null){
+            try {
+                mSectionsPagerAdapter.clearFragments();
+                String description = course.getString("desc");
+                if (!description.equalsIgnoreCase("null")){
+                    description = "Description: " + description;
+                    if (description.indexOf("Prerequisites") >= 0){
+                        description = description.replace("Prerequisites:", "\n\nPrerequisites: ");
                     }
-                    else{
-                        courseScrollViewDesc.setVisibility(View.VISIBLE);
-                    }
-                    CourseProfileActivity.this.showingDesc = !CourseProfileActivity.this.showingDesc;
+                    else
+                        description = description.replace("Prerequisite:", "\n\nPrerequisites: ");
                 }
-            });
-
-            JSONArray sections = course.getJSONArray("sections");
-            for (int i = 0; i < sections.length(); ++i){
-                JSONObject classesInSection = sections.getJSONObject(i);
-
-                String section = classesInSection.getString("num");
-                String prof_fname = classesInSection.getString("firstName");
-                String prof_lname = classesInSection.getString("lastName");
-
-                JSONArray classes = classesInSection.getJSONArray("classes");
+                courseDescView.setText(description);
 
 
-                CourseFragment courseFrag = new CourseFragment(section, prof_fname, prof_lname, classes);
-                mSectionsPagerAdapter.addFragment(courseFrag);
+                LinearLayout titleBar = (LinearLayout) findViewById(R.id.courseTitleBar);
+                titleBar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (CourseProfileActivity.this.showingDesc){
+                            courseScrollViewDesc.setVisibility(View.GONE);
+                        }
+                        else{
+                            courseScrollViewDesc.setVisibility(View.VISIBLE);
+                        }
+                        CourseProfileActivity.this.showingDesc = !CourseProfileActivity.this.showingDesc;
+                    }
+                });
+
+                JSONArray sections = course.getJSONArray("sections");
+                for (int i = 0; i < sections.length(); ++i){
+                    JSONObject classesInSection = sections.getJSONObject(i);
+
+                    String section = classesInSection.getString("num");
+                    String prof_fname = classesInSection.getString("firstName");
+                    String prof_lname = classesInSection.getString("lastName");
+
+                    JSONArray classes = classesInSection.getJSONArray("classes");
+
+
+                    CourseFragment courseFrag = new CourseFragment(section, prof_fname, prof_lname, classes);
+                    mSectionsPagerAdapter.addFragment(courseFrag);
+                }
+                mSectionsPagerAdapter.notifyDataSetChanged();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            mSectionsPagerAdapter.notifyDataSetChanged();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+        else{
+            courseSectionView.setText("Sorry, this course is not being offered.");
+        }
+
     }
 
     /**

@@ -137,14 +137,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
         }
     }
 
-    /**
-     * Called when the user clicks the Course Page button
-     */
-    public void CoursePage(View view) {
-        Intent intent = new Intent(this, CourseProfileActivity.class);
-        startActivity(intent);
-    }
-
     //Get value from spinner as well as setting autocomplete adapter
     @Override
     public void onItemSelected(AdapterView<?> parent, View view,

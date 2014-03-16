@@ -110,7 +110,7 @@ public class BrowseCoursesFragment extends ListFragment{
         else{
             //If clicked subject code, then now on course number page. then link to course profiles
             Intent intent = new Intent(getActivity(), CourseProfileActivity.class);
-            intent.putExtra("SearchValue", this.courses.get(position).getTitle());
+            intent.putExtra("SearchValue", this.courses.get(position).getSubject());
             startActivity(intent);
         }
 
