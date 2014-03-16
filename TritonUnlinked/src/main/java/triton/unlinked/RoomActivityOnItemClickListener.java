@@ -18,7 +18,7 @@ public class RoomActivityOnItemClickListener implements OnItemClickListener {
         String listItemText = textViewItem.getText().toString();
 
         if( !(listItemText.equals("")) ) {
-            Log.d("RoomActivityOnItemClickListener", "list item text: " + listItemText);
+            //Log.d("RoomActivityOnItemClickListener", "list item text: " + listItemText);
             Intent i = new Intent(context, CourseProfileActivity.class);
             i.putExtra("SearchValue",listItemText);
             context.startActivity(i);

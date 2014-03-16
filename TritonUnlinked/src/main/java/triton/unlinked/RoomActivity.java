@@ -1,5 +1,7 @@
 package triton.unlinked;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.Vector;
 
@@ -73,8 +75,9 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
     private static final String TAG_END = "endTime";
     private static final String TAG_TIME = "time";
 
-    private String building;
-    private String room;
+    private String buildingEncoded = ""; //encoded building for the url
+    private String building = "";
+    private String room = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,16 +90,19 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(this);
 
-        new GetRoom().execute();
-
-        //TODO: grab the data passed in from the search bar and update the URL
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("SearchValue");
             String[] dataSplit = value.split(" ");
-            building = dataSplit[0];
-            room = dataSplit[1];
-            Log.v("RoomActivity", "SearchValue: " + value);
+            for(int i=0; i<dataSplit.length-1; i++) {
+                building = building + dataSplit[i];
+                buildingEncoded = buildingEncoded + dataSplit[i];
+                if(i<dataSplit.length-2) {
+                    building = building + " ";
+                    buildingEncoded = buildingEncoded + "%20";
+                }
+            }
+            room = dataSplit[dataSplit.length - 1]; //should be the last item in the array
         }
 
         //RoomScheduleAdapter adapter = new RoomScheduleAdapter(this, times);
@@ -105,6 +111,8 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
         timeListView = (ListView) findViewById(R.id.schedule);
         timeListView.setAdapter(timeListAdapter);
         timeListView.setOnItemClickListener(new RoomActivityOnItemClickListener());
+
+        new GetRoom().execute();
     }
 
 
@@ -148,9 +156,9 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
             //Create service handler class instance
             ServiceHandler sh = new ServiceHandler();
 
-            String jsonStr = sh.makeServiceCall(generateUrl(building, room), ServiceHandler.GET);
+            String jsonStr = sh.makeServiceCall(generateUrl(buildingEncoded, room), ServiceHandler.GET);
 
-            Log.d("Response: ", "> " + jsonStr);
+            Log.d("RoomActivity", "Response: > " + jsonStr);
 
             if(jsonStr != null) {
                 try {
@@ -263,6 +271,7 @@ public class RoomActivity extends Activity implements OnItemSelectedListener {
     }
 
     private String generateUrl(String bld, String room){
+        Log.d("RoomActivity", "Generated URL: " + "http://tritonunlinked.herokuapp.com/room?bld=" + bld + "&room=" + room);
         return "http://tritonunlinked.herokuapp.com/room?bld=" + bld + "&room=" + room;
     }
 
