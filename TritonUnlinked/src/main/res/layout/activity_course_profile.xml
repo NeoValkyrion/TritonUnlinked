@@ -17,19 +17,48 @@
            android:orientation="horizontal"
            android:textAlignment="center"
            android:gravity="center_horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="@dimen/courseTitleFontSize"
-                android:id="@+id/course_sub" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="@dimen/courseTitleFontSize"
-                android:id="@+id/course_num"/>
+           <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center_vertical"
+               android:orientation="horizontal">
+               <LinearLayout
+                   android:id="@+id/courseTitleBar"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:paddingTop="0dp"
+                   android:paddingBottom="0dp"
+                   android:orientation="horizontal"
+                   android:textAlignment="center"
+                   android:gravity="center_horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CSE"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/courseTitleFontSize"
+                        android:id="@+id/course_sub" />
+                    <TextView
+                        android:text="190"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/courseTitleFontSize"
+                        android:id="@+id/course_num"/>
+               </LinearLayout>
+           <ImageView
+               android:id="@+id/cbNextPicView"
+               android:layout_gravity="right"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:layout_marginTop="5dp"
+               android:layout_marginRight="10dp"
+               android:layout_alignParentRight="true"
+               android:src="@drawable/info_icon"
+               android:layout_weight="10"
+               android:adjustViewBounds="false" />
+           </RelativeLayout>
        </LinearLayout>
         <TextView
             android:id="@+id/course_section"

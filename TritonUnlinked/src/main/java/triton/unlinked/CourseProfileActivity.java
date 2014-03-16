@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -150,7 +151,6 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
                         description = description.replace("Prerequisite:", "\n\nPrerequisites: ");
                 }
                 courseDescView.setText(description);
-
 
                 LinearLayout titleBar = (LinearLayout) findViewById(R.id.courseTitleBar);
                 titleBar.setOnClickListener(new View.OnClickListener() {
@@ -338,7 +338,8 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
 
 
             //sectionNumView.setText(this.section);
-            sectionProfView.setText(this.prof_name);
+            //sectionProfView.setText(this.prof_name);
+            sectionProfView.setText(Html.fromHtml("<u>" + this.prof_name + "</u>"));
             sectionProfView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
