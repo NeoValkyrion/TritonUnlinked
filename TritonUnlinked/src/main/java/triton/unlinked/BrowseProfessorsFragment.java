@@ -43,6 +43,7 @@ public class BrowseProfessorsFragment extends ListFragment {
             professors.add(professor_model_row[i].fname + " " + professor_model_row[i].lname);
         }
 
+
         browseAdapter = new ArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1, professors);
         this.setListAdapter(browseAdapter);
         /*for (int i = 0; i < course_row_data.length; i++) {
