@@ -36,11 +36,8 @@
         android:layout_height="wrap_content" />-->
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:padding="5dp"
-        android:text="Faustina solis lect hall bld 102"
         android:textSize="30sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/bld_room"
@@ -81,4 +78,3 @@
     </ListView>
 
 </RelativeLayout>
-
