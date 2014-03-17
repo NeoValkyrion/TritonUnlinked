@@ -6,7 +6,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#445fb0">
+        android:background="#4f87c6">
 
        <LinearLayout
            android:id="@+id/courseTitleBar"
@@ -17,23 +17,52 @@
            android:orientation="horizontal"
            android:textAlignment="center"
            android:gravity="center_horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="@dimen/courseTitleFontSize"
-                android:id="@+id/course_sub" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="@dimen/courseTitleFontSize"
-                android:id="@+id/course_num"/>
+           <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center_vertical"
+               android:orientation="horizontal">
+               <LinearLayout
+                   android:id="@+id/courseTitleBar"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:paddingTop="0dp"
+                   android:paddingBottom="0dp"
+                   android:orientation="horizontal"
+                   android:textAlignment="center"
+                   android:gravity="center_horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CSE"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/courseTitleFontSize"
+                        android:id="@+id/course_sub" />
+                    <TextView
+                        android:text="190"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="@dimen/courseTitleFontSize"
+                        android:id="@+id/course_num"/>
+               </LinearLayout>
+           <ImageView
+               android:id="@+id/cbNextPicView"
+               android:layout_gravity="right"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:layout_marginTop="5dp"
+               android:layout_marginRight="10dp"
+               android:layout_alignParentRight="true"
+               android:src="@drawable/info_icon"
+               android:layout_weight="10"
+               android:adjustViewBounds="false" />
+           </RelativeLayout>
        </LinearLayout>
         <TextView
             android:id="@+id/course_section"
-            android:background="#acacae"
+            android:background="#E0E0E0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
@@ -46,17 +75,18 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="horizontal"
-            android:background="#acacae">
+            android:background="#E0E0E0">
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#acacae"
+                android:background="#E0E0E0"
                 tools:context="triton.unlinked.CourseProfileActivity"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"/>
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:clipToPadding="false"/>
         </LinearLayout>
     </LinearLayout>
     <ScrollView
@@ -66,14 +96,27 @@
         android:layout_marginTop="65dp"
         android:fillViewport="true"
         android:visibility="gone">
-    <TextView
-        android:id="@+id/course_desc"
-        android:background="#DD333333"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="@string/course_desc"
-        android:padding="30dp"
-        android:textSize="@dimen/courseHeaderFontSize"
-        android:textColor="#FFFFFF"/>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#EE333333"
+            android:padding="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/course_desc_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/courseDescTitleFontSize"
+                android:textColor="#FFFFFF"/>
+            <TextView
+                android:id="@+id/course_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/course_desc"
+                android:textSize="@dimen/courseDescTextFontSize"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
     </ScrollView>
 </FrameLayout>

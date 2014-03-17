@@ -53,7 +53,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
 
         TextView myTextView=(TextView)findViewById(R.id.searchByHeader);
-        Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/Quicksand-Regular.otf");
+        Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/Avenir_light.ttf");
         myTextView.setTypeface(typeFace);
 
 
@@ -63,11 +63,20 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
                     .commit();
         }
 
+        /*
         Spinner spinner = (Spinner) findViewById(R.id.searchOptionDropdown);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+        */
+
+        Spinner spinner = (Spinner) findViewById(R.id.searchOptionDropdown);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,R.layout.spinner_item, options);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(this);
+
 
         ImageButton browseButton = (ImageButton) findViewById(R.id.browseButton);
         browseButton.setOnClickListener(new View.OnClickListener(){
