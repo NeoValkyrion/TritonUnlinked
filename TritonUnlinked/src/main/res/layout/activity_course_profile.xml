@@ -34,12 +34,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CSE"
+                        android:text=""
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textSize="@dimen/courseTitleFontSize"
                         android:id="@+id/course_sub" />
                     <TextView
-                        android:text="190"
+                        android:text=""
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
