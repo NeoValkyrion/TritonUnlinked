@@ -6,6 +6,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
     <dimen name="courseHeaderFontSize">20dp</dimen>
+    <dimen name="courseDescTextFontSize">18dp</dimen>
+    <dimen name="courseDescTitleFontSize">25dp</dimen>
     <dimen name="courseTitleFontSize">35dp</dimen>
     <dimen name="courseTextFontSize">16dp</dimen>
     <dimen name="courseBetweenSections">7dp</dimen>

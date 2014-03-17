@@ -48,6 +48,7 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
     private TextView courseSectionView;
     private TextView courseDescView;
     private ScrollView courseScrollViewDesc;
+    private TextView courseDescTitleView;
 
     protected boolean showingDesc = false;
     private String courseSubj, courseNum;
@@ -81,6 +82,7 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
         courseSectionView = (TextView) findViewById(R.id.course_section);
         courseDescView = (TextView) findViewById(R.id.course_desc);
         courseScrollViewDesc = (ScrollView) findViewById(R.id.course_scrollview_desc);
+        courseDescTitleView = (TextView) findViewById(R.id.course_desc_title);
 
         FragmentManager fm = getFragmentManager();
         mTaskFragment = (CourseProfileAsyncFragment) fm.findFragmentByTag("task");
@@ -142,6 +144,8 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
             try {
                 mSectionsPagerAdapter.clearFragments();
                 String description = course.getString("desc");
+                String courseTitle = course.getString("title");
+                courseDescTitleView.setText(courseTitle);
                 if (!description.equalsIgnoreCase("null")){
                     description = "Description: " + description;
                     if (description.indexOf("Prerequisites") >= 0){
@@ -334,7 +338,6 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
             sectionDiView = (TextView) rootView.findViewById(R.id.course_section_discussions);
             sectionFiView = (TextView) rootView.findViewById(R.id.course_section_final);
             sectionLocationView = (TextView) rootView.findViewById(R.id.course_section_loc);
-            sectionDescView = (TextView) rootView.findViewById(R.id.course_desc);
 
 
             //sectionNumView.setText(this.section);
