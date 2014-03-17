@@ -3,6 +3,7 @@ package triton.unlinked;
 /**
  * Created by jeremykao on 3/12/14.
  */
+
 public class CourseObject {
 
     private String subject;
