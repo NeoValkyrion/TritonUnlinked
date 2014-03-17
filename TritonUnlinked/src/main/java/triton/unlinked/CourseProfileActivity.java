@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -51,7 +52,7 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
     private TextView courseDescTitleView;
 
     protected boolean showingDesc = false;
-    private String courseSubj, courseNum;
+    private String courseSubj, courseNum, fromProfActivityName;
 
     private JSONObject courseJson;
 
@@ -94,6 +95,7 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
         if (mTaskFragment == null && searchTerm != null) {
             String value = searchTerm.getString("SearchValue");
             Log.i("CourseProfileActivity", "This is value passed into AsyncFrag" + value);
+            this.fromProfActivityName = searchTerm.getString("fromProfActivity");
             String[] courseArr = value.split(" ");
             this.courseSubj = courseArr[0];
             this.courseNum = courseArr[courseArr.length-1];
@@ -185,6 +187,7 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
                     mSectionsPagerAdapter.addFragment(courseFrag);
                 }
                 mSectionsPagerAdapter.notifyDataSetChanged();
+                mViewPager.setCurrentItem(mSectionsPagerAdapter.searchForPage(this.fromProfActivityName));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -219,6 +222,19 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
         }
         public void addFragment(CourseFragment frag){
             createdFragments.add(frag);
+        }
+        public int searchForPage(String lastName){
+            if (lastName != null){
+                for (int i = 0; i < this.createdFragments.size(); ++i){
+                    String[] profName = this.createdFragments.get(i).getProfName().split(" ");
+                    for (int name = 0; name < profName.length; ++name){
+                        if (profName[name].equalsIgnoreCase(lastName)){
+                            return i;
+                        }
+                    }
+                }
+            }
+            return 0;
         }
 
         @Override
@@ -288,6 +304,9 @@ public class CourseProfileActivity extends FragmentActivity implements CoursePro
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
+        }
+        public String getProfName(){
+            return this.prof_name;
         }
 
         public CourseFragment() {

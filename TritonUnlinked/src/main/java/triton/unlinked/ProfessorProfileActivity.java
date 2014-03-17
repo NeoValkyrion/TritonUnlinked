@@ -78,6 +78,7 @@ public  class ProfessorProfileActivity extends ListActivity{
         Intent i = new Intent(this.ctx, CourseProfileActivity.class);
         Object classClicked = getListAdapter().getItem(position);
         i.putExtra("SearchValue", ((CourseObject) classClicked).getSubject());
+        i.putExtra("fromProfActivity", this.lastName);
         startActivity(i);
     }
     /**
